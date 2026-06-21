@@ -4,7 +4,7 @@ export function useApi(){
   const {getToken} = useAuth()
 
   async function apiFetch(endpoint:string, options?:RequestInit) {
-    const token = getToken();
+    const token = await getToken();
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options,
@@ -17,4 +17,5 @@ export function useApi(){
     if (!response.ok)throw new Error(`API error: ${response.status}`)
       response.json()
   }
+  return {apiFetch}
 }

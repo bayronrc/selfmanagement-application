@@ -1,11 +1,18 @@
 "use client"
 
+import { useApi } from "@/lib/api-client";
+import { AlertCircleIcon, FileSpreadsheetIcon, UploadIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import * as XLSX from "xlsx";
-import { apiFetch } from "../lib/api";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 
 export function ExcelUploader() {
+  const { apiFetch } = useApi()
   const [errors, setErrors] = useState<string[]>([])
   const [filename, setFilename] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -24,12 +31,74 @@ export function ExcelUploader() {
 
     try {
       setLoading(true)
-      await apiFetch("/orders/batches", {
+      await apiFetch("/orders/upload-batches", {
         method: "POST",
         body: JSON.stringify({ filename: file.name, rows: rows })
       })
+      toast.success("Archivo cargado correctamente", {
+        description: `${rows.length} ordenes procesadas correctamente`
+      })
     } catch (error) {
-
+      toast.error("Error al cargar el archivo", {
+        description: "Intenta de nuevo o contacta a soporte"
+      })
+    } finally {
+      setLoading(false)
     }
+
   }
+  return (
+    <div className="flex flex-col gap-4">
+      <Label>
+        <Input
+          type="file"
+          accept=".xlsx,.xls"
+          className="hiddend"
+          onChange={handleFile}
+          disabled={loading}
+        />
+        {
+          filename ? (
+            <>
+              <FileSpreadsheetIcon className="size-10 text-primary" />
+              <span className="text-sm font-medium">{filename}</span>
+            </>
+          ) : (
+            <>
+              <UploadIcon className="size-10 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">
+                Arrastra tu archivo o <span className="text-primary font-medium">haz clic aqui</span>
+              </span>
+              <span className="text-xs text-muted-foreground">.xlsx / .xls</span>
+            </>
+          )
+        }
+
+      </Label>
+      {
+        filename && errors.length === 0 && (
+          <Button disabled={loading} onClick={() => { }}>
+            {loading ? "Cargando..." : "Confirmar Cargue"}
+          </Button>
+        )
+      }
+      {
+        errors.length > 0 && (
+          <Alert variant={"destructive"}>
+            <AlertCircleIcon className="size-4" />
+            <AlertTitle>El archivo tiene errores</AlertTitle>
+            <AlertDescription>
+              <ul className="mt-2 space-y-1 text-sm list-disc list-inside">
+                {
+                  errors.map((e, i) => (
+                    <li key={i}>{e}</li>
+                  ))
+                }
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )
+      }
+    </div>
+  )
 }
