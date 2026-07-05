@@ -15,7 +15,7 @@ export function useApi(){
       },
     })
     if (!response.ok)throw new Error(`API error: ${response.status}`)
-      response.json()
+     return await response.json()
   }
   return {apiFetch}
 }
