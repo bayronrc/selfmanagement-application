@@ -1,13 +1,13 @@
 "use client"
 
-import { OrderPaginationResponse } from "@/types/order";
+import { Badge } from "@/components/ui/badge";
+import { Order } from "@/types/order";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "../../../../components/ui/badge";
 
 
 
 
-export const columns: ColumnDef<OrderPaginationResponse>[] = [
+export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "Fecha",
     header: "Fecha"

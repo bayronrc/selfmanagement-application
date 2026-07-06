@@ -11,17 +11,11 @@ export interface Order {
     dias_tto: number | null;
 }
 
-export interface OrderOut extends Order{
-  id: number;
-  batch_id: number;
-  status: "pendiente" | "aprobado" | "rechazado";
-  error_message: string | null;
-}
 
 export interface OrderPaginationResponse {
   total: number;
   page: number;
   limit: number;
   pages: number;
-  data: OrderOut[]
+  data: Order[]
 }

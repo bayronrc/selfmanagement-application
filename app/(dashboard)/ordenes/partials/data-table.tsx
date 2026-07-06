@@ -4,11 +4,12 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  getFilteredRowModel,
+  useReactTable
 } from "@tanstack/react-table"
 
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
+import { PaginationIconsOnly } from "@/components/pagination-icons-only"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -17,53 +18,64 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import React from "react"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  loading: boolean
+  loading?: boolean
   page: number;
+  limit: number;
+  total: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void
+  search: string;
+  onPageChange: (page: number) => void
+  onLimitChange: (limit: number) => void
+  onSearchChange: (search: string) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  loading,
+  loading = false,
   page,
+  limit,
+  total,
   totalPages,
+  search,
   onPageChange,
+  onLimitChange,
+  onSearchChange
 }: DataTableProps<TData, TValue>) {
+  const [globalFilter, setGlobalFilter] = useState("")
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: true
-  })
-
-  const obtenerPaginasVissibles = () => {
-    const paginas = [];
-    const maxVisibles = 5;
-
-    if (totalPages <= maxVisibles) {
-      for (let i = 1; i <= totalPages; i++) paginas.push(i)
-    } else {
-      if (page <= 3) {
-        paginas.push(1, 2, 3, 4, "ellipsis", totalPages)
-      } else if (page >= totalPages - 2) {
-        paginas.push(1, "ellipsis", totalPages - 3, totalPages - 2, totalPages - 1, totalPages)
-      } else {
-        paginas.push(1, "ellipsis", page - 1, page, page + 1, "ellipsis", totalPages)
+    getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    manualPagination: true,
+    pageCount: totalPages,
+    state: {
+      globalFilter,
+      pagination: {
+        pageIndex: page - 1,
+        pageSize: limit
       }
     }
-  }
+  })
+
+
+
 
   return (
     <div className="space-y-4">
-
+      <Input
+        placeholder="Buscar archivo..."
+        value={search}
+        onChange={(e) => onSearchChange(e.target.value)}
+        className="max-w-sm"
+      />
       <div className="overflow-hidden rounded-md border text-center">
         <Table>
           <TableHeader className="items-center">
@@ -108,55 +120,18 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col gap-4">
-        <ButtonGroup>
-          {/* Anterior */}
-          <Button
-            disabled={page <= 1 || loading}
-            onClick={() => onPageChange(page - 1)}
-            size="sm"
-            variant="outline"
-          >
-            <ChevronLeftIcon className="mr-1 h-4 w-4" />
-            Previous
-          </Button>
-
-          {/* Renderizado de páginas dinámicas */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1)
-            .filter((num) => num === 1 || num === totalPages || Math.abs(num - page) <= 1)
-            .map((num, idx, arr) => {
-              const mostrarEllipsis = idx > 0 && num - arr[idx - 1] > 1;
-
-              return (
-                <React.Fragment key={num}>
-                  {mostrarEllipsis && (
-                    <span className="inline-flex items-center justify-center border border-input px-3 text-sm text-muted-foreground bg-background">
-                      ...
-                    </span>
-                  )}
-                  <Button
-                    onClick={() => onPageChange(num)}
-                    disabled={loading}
-                    size="sm"
-                    variant={page === num ? "default" : "outline"}
-                  >
-                    {num}
-                  </Button>
-                </React.Fragment>
-              );
-            })}
-
-          {/* Siguiente */}
-          <Button
-            disabled={page >= totalPages || loading}
-            onClick={() => onPageChange(page + 1)}
-            size="sm"
-            variant="outline"
-          >
-            Next
-            <ChevronRightIcon className="ml-1 h-4 w-4" />
-          </Button>
-        </ButtonGroup>
+      <div className="flex items-center justify-between px-2 py-4">
+        <div className="text-sm text-muted-foreground">
+          Página {page} de {totalPages} ({total} órdenes totales)
+        </div>
+        <PaginationIconsOnly
+          page={page}
+          loading={loading}
+          totalPages={totalPages}
+          rowsPerPage={limit}
+          onChangePage={onPageChange}
+          onChangeRowsPerPage={onLimitChange}
+        />
       </div>
     </div>
   )
