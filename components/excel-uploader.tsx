@@ -106,7 +106,7 @@ export function ExcelUploader() {
       </Label>
       {
         filename && errors.length === 0 && (
-          <Button disabled={loading} onClick={() => { }}>
+          <Button disabled={loading} onClick={() => handleFile}>
             {loading ? "Cargando..." : "Confirmar Cargue"}
           </Button>
         )
