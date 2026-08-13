@@ -27,6 +27,12 @@ export const navConfig: NavConfig = {
       title: "RIPS",
       url: "/rips",
       icon: Braces,
+      items: [
+        {
+          title: "Cargar RIPS",
+          url: "/rips/upload",
+        },
+      ],
     },
   ],
 };

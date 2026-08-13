@@ -27,16 +27,44 @@ export function ExcelUploader() {
     const buffer = await file.arrayBuffer()
     const workbook = XLSX.read(buffer)
     const sheet = workbook.Sheets[workbook.SheetNames[0]]
-    const rows = XLSX.utils.sheet_to_json(sheet)
+
+    const rawData = XLSX.utils.sheet_to_json<string[]>(sheet, { header: 1 })
+    const headerRowIndex = rawData.findIndex(row =>
+      row.includes("IdAdmision") || row.includes("Identificacion")
+    )
+
+    if (headerRowIndex === -1) {
+      toast.error("Estructura de Excel no válida", {
+        description: "No se encontraron los encabezados esperados."
+      })
+      return
+    }
+
+    // 3. Extraemos los encabezados y las filas de datos
+    const headers = rawData[headerRowIndex]
+    const dataRows = rawData.slice(headerRowIndex + 1)
+
+    // 4. Mapeamos a un array de objetos limpios
+    const formattedRows = dataRows
+      .filter(row => row.length > 0 && row[0] !== undefined) // Filtra filas vacías
+      .map(row => {
+        const rowObject: Record<string, any> = {}
+        headers.forEach((header, index) => {
+          rowObject[header] = row[index] ?? ""
+        })
+        return rowObject
+      })
 
     try {
       setLoading(true)
+
       await apiFetch("/orders/upload-batches", {
         method: "POST",
-        body: JSON.stringify({ filename: file.name, rows: rows })
+        body: JSON.stringify({ filename: file.name, rows: formattedRows })
       })
+
       toast.success("Archivo cargado correctamente", {
-        description: `${rows.length} ordenes procesadas correctamente`
+        description: `${formattedRows.length} órdenes procesadas correctamente`
       })
     } catch (error) {
       toast.error("Error al cargar el archivo", {
@@ -45,8 +73,9 @@ export function ExcelUploader() {
     } finally {
       setLoading(false)
     }
-
   }
+
+
   return (
     <div className="flex flex-col gap-4">
       <Label>

@@ -4,7 +4,7 @@ import { useApi } from "@/lib/api-client";
 import { Order, OrderPaginationResponse } from "@/types/order";
 import { useEffect, useState } from "react";
 import { columns } from "./partials/columns";
-import { DataTable } from "./partials/data-table";
+import { DataTable } from "../../../components/data-table";
 export default function Page() {
   const { apiFetch } = useApi();
 
