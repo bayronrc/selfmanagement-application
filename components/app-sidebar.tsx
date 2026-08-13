@@ -12,45 +12,15 @@ import {
 } from "@/components/ui/sidebar"
 import { useUser } from "@clerk/nextjs"
 import {
-  ClipboardListIcon,
   HeartPulseIcon
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
 import { NavUser } from "./nav-user"
+import { navConfig } from "../config/nav"
 
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: <HeartPulseIcon />,
-    },
-    // {
-    //   title: "Citas",
-    //   url: "/appointments",
-    //   icon: <CalendarIcon />,
-    // },
-    {
-      title: "Órdenes",
-      url: "/ordenes",
-      icon: <ClipboardListIcon />,
-      items: [
-        {
-          title: "Cargar Ordenes",
-          url: "/ordenes/upload"
-        }
-      ]
 
-    },
-    // {
-    //   title: "Perfil",
-    //   url: "/settings",
-    //   icon: <UserIcon />,
-    // },
-  ],
-}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
@@ -86,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={
-          data.navMain.map(item => ({
+          navConfig.navMain.map(item => ({
             ...item,
             isActive: pathname.startsWith(item.url)
           }))
