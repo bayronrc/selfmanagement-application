@@ -1,36 +1,29 @@
 "use client"
 
 import { useApi } from "@/lib/api-client";
-import { Orden, OrdenPaginationResponse } from "@/types/orden";
+import { Facturacion, FacturacionPaginationResponse } from "@/types/facturacion";
 import { useCallback, useEffect, useState } from "react";
 import { getColumns } from "./partials/columns";
 import { DataTableWithActions } from "@/components/data-table-with-actions";
 import { ExportButton } from "@/components/export-button";
 import { EditDialog } from "@/components/edit-dialog";
-import { ClipboardListIcon } from "lucide-react";
+import { ReceiptIcon } from "lucide-react";
 
 const FIELDS = [
-  { name: "no_factura", label: "No. Factura", section: "Datos de la Orden" },
-  { name: "fecha", label: "Fecha", type: "date" as const, section: "Datos de la Orden" },
-  { name: "paciente", label: "Paciente", section: "Paciente" },
-  { name: "documento", label: "Documento", section: "Paciente" },
-  { name: "profesional", label: "Profesional", section: "Profesional" },
-  { name: "especialidad", label: "Especialidad", section: "Profesional" },
-  { name: "servicio", label: "Servicio", section: "Detalles" },
-  { name: "laboratorio", label: "Laboratorio", section: "Ordenes" },
-  { name: "imagen_diagnostica", label: "Imagen Diagnostica", section: "Ordenes" },
-  { name: "medicamentos", label: "Medicamentos", section: "Ordenes" },
-  { name: "procedimientos", label: "Procedimientos", section: "Ordenes" },
-  { name: "remision", label: "Remision", section: "Ordenes" },
-  { name: "interconsulta", label: "Interconsulta", section: "Ordenes" },
-  { name: "control_medico", label: "Control Medico", section: "Ordenes" },
-  { name: "observaciones", label: "Observaciones", section: "Detalles" },
-  { name: "status", label: "Status", type: "select" as const, options: ["pendiente", "aprobado", "rechazado"], section: "Estado" },
+  { name: "fecha", label: "Fecha", type: "date" as const, section: "Datos de Facturacion" },
+  { name: "paciente", label: "Paciente", section: "Datos de Facturacion" },
+  { name: "documento", label: "Documento", type: "numeric" as const, section: "Datos de Facturacion" },
+  { name: "servicio", label: "Servicio", section: "Servicio" },
+  { name: "procedimiento", label: "Procedimiento", section: "Servicio" },
+  { name: "valor", label: "Valor", type: "numeric" as const, placeholder: "Ej: 50000", section: "Pago" },
+  { name: "metodo_pago", label: "Metodo de Pago", type: "select" as const, options: ["Efectivo", "Tarjeta Credito", "Tarjeta Debito", "Transferencia", "Bonos", "Seguro"], section: "Pago" },
+  { name: "estado", label: "Estado", type: "select" as const, options: ["pendiente", "pagado", "anulado"], section: "Estado" },
+  { name: "observaciones", label: "Observaciones", section: "Estado" },
 ];
 
 export default function Page() {
   const { apiFetch } = useApi();
-  const [data, setData] = useState<Orden[]>([]);
+  const [data, setData] = useState<Facturacion[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -38,7 +31,7 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [editRow, setEditRow] = useState<Orden | null>(null);
+  const [editRow, setEditRow] = useState<Facturacion | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 400);
@@ -53,14 +46,14 @@ export default function Page() {
       setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (debouncedSearch) params.set("search", debouncedSearch);
-      const response: OrdenPaginationResponse = await apiFetch(`/orders/get-orders?${params.toString()}`, { method: "GET" });
+      const response: FacturacionPaginationResponse = await apiFetch(`/billing/get-billings?${params.toString()}`, { method: "GET" });
       if (isMounted) {
         setData(response?.data || []);
         setTotalPages(response?.pages || 1);
         setTotal(response?.total || 0);
       }
     } catch (error) {
-      console.error("Error cargando Ordenes: ", error);
+      console.error("Error cargando Facturacion: ", error);
     } finally {
       if (isMounted) setLoading(false);
     }
@@ -75,14 +68,14 @@ export default function Page() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-rose-400 to-pink-600 shadow-lg shadow-rose-500/20">
-            <ClipboardListIcon className="size-5 text-white" />
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-yellow-600 shadow-lg shadow-amber-500/20">
+            <ReceiptIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-500 bg-clip-text text-transparent">
-              Órdenes
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent">
+              Facturacion
             </h1>
-            <p className="text-sm text-muted-foreground">Gestión de órdenes médicas</p>
+            <p className="text-sm text-muted-foreground">Gestion de facturacion medica</p>
           </div>
         </div>
       </div>
@@ -95,16 +88,16 @@ export default function Page() {
         total={total}
         totalPages={totalPages}
         search={search}
-        searchPlaceholder="Buscar orden..."
-        totalLabel="ordenes"
+        searchPlaceholder="Buscar factura..."
+        totalLabel="facturas"
         onSearchChange={setSearch}
         onPageChange={setPage}
         onLimitChange={(l) => { setLimit(l); setPage(1); }}
-        headerExtra={<ExportButton entity="ordenes" search={debouncedSearch} />}
+        headerExtra={<ExportButton entity="facturacion" search={debouncedSearch} />}
       />
       {editRow && (
         <EditDialog
-          entity="ordenes"
+          entity="facturacion"
           itemId={editRow.id!}
           fields={FIELDS}
           initialData={editRow}

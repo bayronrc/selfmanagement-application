@@ -31,12 +31,19 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
+        suppressHydrationWarning
         className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
       >
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `try{const t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
+            }}
+          />
+        </head>
         <body className="min-h-full flex flex-col">
           <TooltipProvider>
             {children}
-
           </TooltipProvider>
         </body>
       </html>

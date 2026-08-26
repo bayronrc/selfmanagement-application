@@ -1,25 +1,28 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge";
-import { Orden } from "@/types/orden";
+import { Cita } from "@/types/cita";
 import { ColumnDef } from "@tanstack/react-table";
 import { RowActions } from "@/components/row-actions";
 
-export function getColumns(onRefresh: () => void, onEdit: (row: Orden) => void): ColumnDef<Orden>[] {
+export function getColumns(onRefresh: () => void, onEdit: (row: Cita) => void): ColumnDef<Cita>[] {
   return [
-    { accessorKey: "no_factura", header: "No. Factura" },
     { accessorKey: "fecha", header: "Fecha" },
+    { accessorKey: "hora", header: "Hora" },
     { accessorKey: "paciente", header: "Paciente" },
     { accessorKey: "documento", header: "Documento" },
     { accessorKey: "profesional", header: "Profesional" },
     { accessorKey: "especialidad", header: "Especialidad" },
+    { accessorKey: "servicio", header: "Servicio" },
+    { accessorKey: "motivo", header: "Motivo" },
     {
-      accessorKey: "status",
+      accessorKey: "estado",
       header: "Estado",
       cell: ({ row }) => {
-        const v = row.getValue("status")
-        if (v === "aprobado") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Aprobado</Badge>
-        if (v === "rechazado") return <Badge variant="destructive" className="capitalize">Rechazado</Badge>
+        const v = row.getValue("estado")
+        if (v === "confirmada") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Confirmada</Badge>
+        if (v === "cancelada") return <Badge variant="destructive" className="capitalize">Cancelada</Badge>
+        if (v === "completada") return <Badge variant="outline" className="capitalize bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900">Completada</Badge>
         return <Badge variant="outline" className="capitalize bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900">Pendiente</Badge>
       }
     },
@@ -29,7 +32,7 @@ export function getColumns(onRefresh: () => void, onEdit: (row: Orden) => void):
       cell: ({ row }) => (
         <RowActions
           entityId={row.original.id!}
-          entity="ordenes"
+          entity="citas"
           onDeleted={onRefresh}
           onEdit={() => onEdit(row.original)}
         />

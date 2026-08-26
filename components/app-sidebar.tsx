@@ -6,14 +6,16 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useUser } from "@clerk/nextjs"
 import {
+  CalendarIcon,
+  HeartPulseIcon,
+  ReceiptIcon,
+  FileTextIcon,
+  UserCogIcon,
+  BarChart3Icon,
   ClipboardListIcon,
-  HeartPulseIcon
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -25,30 +27,54 @@ const data = {
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: <HeartPulseIcon />,
+      icon: <HeartPulseIcon className="text-emerald-500" />,
     },
-    // {
-    //   title: "Citas",
-    //   url: "/appointments",
-    //   icon: <CalendarIcon />,
-    // },
     {
-      title: "Órdenes",
-      url: "/ordenes",
-      icon: <ClipboardListIcon />,
+      title: "Facturacion",
+      url: "/facturacion",
+      icon: <ReceiptIcon className="text-amber-500" />,
       items: [
-        {
-          title: "Cargar Ordenes",
-          url: "/ordenes/upload"
-        }
+        { title: "Registrar Factura", url: "/facturacion/registrar" },
+        { title: "Cargar Facturacion", url: "/facturacion/upload" }
       ]
-
     },
-    // {
-    //   title: "Perfil",
-    //   url: "/settings",
-    //   icon: <UserIcon />,
-    // },
+    {
+      title: "Citas",
+      url: "/citas",
+      icon: <CalendarIcon className="text-teal-500" />,
+      items: [
+        { title: "Registrar Cita", url: "/citas/registrar" },
+        { title: "Cargar Citas", url: "/citas/upload" }
+      ]
+    },
+    {
+      title: "Historia Clinica",
+      url: "/historia-clinica",
+      icon: <FileTextIcon className="text-indigo-500" />,
+    },
+    {
+      title: "Ordenes",
+      url: "/ordenes",
+      icon: <ClipboardListIcon className="text-violet-500" />,
+      items: [
+        { title: "Cargar Ordenes", url: "/ordenes/upload" }
+      ]
+    },
+    {
+      title: "Usuarios",
+      url: "/usuarios",
+      icon: <UserCogIcon className="text-blue-500" />,
+      items: [
+        { title: "Registrar Paciente", url: "/pacientes/registrar" },
+        { title: "Cargar Pacientes", url: "/pacientes/upload" },
+        { title: "Flujo Completo", url: "/workflow" }
+      ]
+    },
+    {
+      title: "Reportes",
+      url: "/reportes",
+      icon: <BarChart3Icon className="text-gray-500" />,
+    },
   ],
 }
 
@@ -67,22 +93,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
       {...props}
     >
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <HeartPulseIcon className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">MediApp</span>
-                  <span className="truncate text-xs">Gestión médica</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarHeader className="p-0 border-b-0">
+        <div className="m-2 rounded-xl bg-gradient-to-br from-teal-500 via-emerald-500 to-teal-600 p-4 shadow-lg shadow-emerald-500/20">
+          <Link href="/dashboard" className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
+              <HeartPulseIcon className="size-5 text-white" />
+            </div>
+            <div className="grid flex-1 text-left">
+              <span className="truncate text-lg font-bold text-white">MediApp</span>
+              <span className="truncate text-xs text-emerald-100">Gestión médica</span>
+            </div>
+          </Link>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={
