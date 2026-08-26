@@ -36,16 +36,31 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
-      <SidebarMenu>
+      <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+        Menu
+      </SidebarGroupLabel>
+      <SidebarMenu className="space-y-1">
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title}>
-                <Link className={cn(
-                  item.isActive ? "font-bold" : "font-normal"
-                )} href={item.url}>
-                  {item.icon}
+              <SidebarMenuButton
+                asChild
+                className={cn(
+                  "rounded-lg transition-all duration-200",
+                  item.isActive
+                    ? "bg-gradient-to-r from-teal-500/10 to-emerald-500/10 text-teal-700 dark:text-teal-400 font-semibold border-l-3 border-teal-500"
+                    : "hover:bg-accent/80"
+                )}
+              >
+                <Link href={item.url}>
+                  <div className={cn(
+                    "flex size-8 items-center justify-center rounded-lg transition-all",
+                    item.isActive
+                      ? "bg-gradient-to-br from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/20"
+                      : "bg-muted/50"
+                  )}>
+                    {item.icon}
+                  </div>
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
@@ -53,8 +68,7 @@ export function NavMain({
                 <>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRightIcon
-                      />
+                      <ChevronRightIcon />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>
@@ -63,9 +77,9 @@ export function NavMain({
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <a href={subItem.url}>
+                            <Link href={subItem.url}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
