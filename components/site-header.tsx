@@ -14,9 +14,15 @@ import { useSidebar } from "@/components/ui/sidebar"
 import { PanelLeftIcon, Slash } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const routeIcons: Record<string, string> = {
   dashboard: '🏠',
+  pacientes: '👥',
+  profesionales: '🩺',
+  citas: '📅',
+  servicios: '🏥',
+  ordenes: '📋',
   projects: '📁',
   settings: '⚙️',
   profile: '👤',
@@ -28,6 +34,11 @@ const routeIcons: Record<string, string> = {
 
 const routeLabels: Record<string, string> = {
   dashboard: 'Inicio',
+  pacientes: 'Pacientes',
+  profesionales: 'Profesionales',
+  citas: 'Citas',
+  servicios: 'Servicios',
+  ordenes: 'Órdenes',
   projects: 'Proyectos',
   settings: 'Ajustes',
   profile: 'Perfil',
@@ -47,10 +58,10 @@ export function SiteHeader() {
   const isId = (s: string) => /^[a-f0-9-]{8,}$|^\d+$/.test(s) // numérico o UUID
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-background">
+    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-background via-background to-teal-50/50 dark:to-teal-950/20 backdrop-blur-sm">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
-          className="h-8 w-8"
+          className="h-8 w-8 hover:bg-teal-100 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -75,8 +86,8 @@ export function SiteHeader() {
 
             {segments.map((segment, index) => {
               const isLast = index === segments.length - 1
-              // Reconstruye el href incluyendo "dashboard" al inicio
-              const href = '/dashboard/' + segments.slice(0, index + 1).join('/')
+              // Reconstruye el href con las rutas reales (top-level)
+              const href = '/' + segments.slice(0, index + 1).join('/')
               const label = routeLabels[segment] ?? segment
               const icon = routeIcons[segment] ?? ''
               const display = isId(segment) ? `#${segment.slice(0, 8)}` : `${icon} ${label}`.trim()
@@ -104,6 +115,9 @@ export function SiteHeader() {
             })}
           </BreadcrumbList>
         </Breadcrumb>
+        <div className="ml-auto">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   )

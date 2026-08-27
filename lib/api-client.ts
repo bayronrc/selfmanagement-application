@@ -5,7 +5,7 @@ export function useApi(){
 
   async function apiFetch(endpoint:string, options?:RequestInit) {
     const token = await getToken();
-
+    console.log(process.env.NEXT_PUBLIC_API_URL)
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options,
       headers: {

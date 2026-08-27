@@ -4,21 +4,15 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 // Rutas públicas (cualquiera puede acceder)
 const isPublicRoute = createRouteMatcher([
   "/",
-  "/sign-in(.*)",         // Login de Clerk
-  "/sign-up(.*)",         // Registro de Clerk
+  "/sign-in(.*)",
+  "/sign-up(.*)",
 ]);
-
-const isAthenticateRoute = createRouteMatcher([
-
-])
 
 
 export default clerkMiddleware(async (auth, request) => {
-  // 1. Rutas públicas: dejar pasar
- if(!isPublicRoute(request)){
-  await auth.protect();
- }
-
+  if(!isPublicRoute(request)){
+    await auth.protect();
+  }
 });
 
 export const config = {
