@@ -1,6 +1,7 @@
 "use client"
 
 import { useApi } from "@/lib/api-client";
+import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -27,6 +28,7 @@ interface DashboardStats {
 
 export default function Page() {
   const { apiFetch } = useApi();
+  const { orgId, isLoaded, userId } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     pacientes: 0,
     citas: 0,
@@ -40,6 +42,10 @@ export default function Page() {
 
   useEffect(() => {
     let isMounted = true;
+    console.log("[DASHBOARD AUTH STATE]", { isLoaded, userId, orgId });
+
+    if (!isLoaded) return;
+
     async function cargarStats() {
       try {
         setLoading(true);
@@ -53,9 +59,10 @@ export default function Page() {
         if (isMounted) setLoading(false);
       }
     }
+
     cargarStats();
     return () => { isMounted = false; };
-  }, []);
+  }, [isLoaded, orgId, userId]);
 
   const statCards = [
     {

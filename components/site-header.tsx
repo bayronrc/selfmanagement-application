@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
+import { OrganizationSwitcher } from "@clerk/nextjs"
 import { PanelLeftIcon, Slash } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -115,7 +116,19 @@ export function SiteHeader() {
             })}
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <OrganizationSwitcher
+            hidePersonal={true}
+            afterSelectOrganizationUrl="/dashboard"
+            afterCreateOrganizationUrl="/dashboard"
+            afterLeaveOrganizationUrl="/dashboard"
+            appearance={{
+              elements: {
+                rootBox: "flex items-center",
+                organizationSwitcherTrigger: "flex items-center gap-2 rounded-lg border bg-background/80 px-2.5 py-1.5 text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors shadow-xs",
+              }
+            }}
+          />
           <ThemeToggle />
         </div>
       </div>

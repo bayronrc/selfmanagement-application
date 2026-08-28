@@ -18,8 +18,21 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronRightIcon } from "lucide-react"
 import Link from "next/link"
+import React from "react"
 import { cn } from "../lib/utils"
 import { NavItem } from "../types/nav"
+
+function renderIcon(icon: React.ReactNode | React.ElementType) {
+  if (!icon) return null;
+  if (React.isValidElement(icon)) {
+    return icon;
+  }
+  if (typeof icon === "function" || (typeof icon === "object" && icon !== null)) {
+    const IconComponent = icon as React.ElementType;
+    return <IconComponent className="size-4" />;
+  }
+  return icon;
+}
 
 export function NavMain({
   items,
@@ -49,7 +62,7 @@ export function NavMain({
                       ? "bg-gradient-to-br from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/20"
                       : "bg-muted/50"
                   )}>
-                    {item.icon}
+                    {renderIcon(item.icon)}
                   </div>
                   <span>{item.title}</span>
                 </Link>

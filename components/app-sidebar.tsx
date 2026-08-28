@@ -108,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={
-          navConfig.navMain.map(item => ({
+          data.navMain.map(item => ({
             ...item,
             isActive: pathname.startsWith(item.url)
           }))

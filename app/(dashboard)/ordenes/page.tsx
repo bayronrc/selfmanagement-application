@@ -4,6 +4,7 @@ import { DataTableWithActions } from "@/components/data-table-with-actions";
 import { EditDialog } from "@/components/edit-dialog";
 import { ExportButton } from "@/components/export-button";
 import { useApi } from "@/lib/api-client";
+import { useAuth } from "@clerk/nextjs";
 import { Orden, OrdenPaginationResponse } from "@/types/orden";
 import { ClipboardListIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -30,6 +31,7 @@ const FIELDS = [
 
 export default function Page() {
   const { apiFetch } = useApi();
+  const { orgId, isLoaded } = useAuth();
   const [data, setData] = useState<Orden[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
@@ -49,6 +51,11 @@ export default function Page() {
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
+
+    if (!isLoaded || !orgId) {
+      return;
+    }
+
     try {
       setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
@@ -65,7 +72,7 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch]);
+  }, [page, limit, debouncedSearch, isLoaded, orgId]);
 
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
