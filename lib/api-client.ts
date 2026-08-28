@@ -4,7 +4,7 @@ export function useApi() {
   const { getToken } = useAuth();
 
   async function apiFetch(endpoint: string, options?: RequestInit) {
-    const token = await getToken();
+    const token = await getToken({ skipCache: true });
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
     const response = await fetch(`${baseUrl}${endpoint}`, {
       ...options,
