@@ -17,7 +17,6 @@ export default async function HomePage() {
   const features = [
     {
       icon: <HeartPulseIcon className="size-6 text-orange-500" />,
-      icon: <HeartPulseIcon className="size-6 text-orange-500" />,
       title: "Gestión Integral",
       description: "Administra pacientes, citas y órdenes médicas en un solo lugar.",
       color: "from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20",
@@ -30,7 +29,7 @@ export default async function HomePage() {
     },
     {
       icon: <ClockIcon className="size-6 text-orange-500" />,
-      icon: <ClockIcon className="size-6 text-orange-500" />,
+
       title: "Ahorro de Tiempo",
       description: "Automatiza procesos y reduce el tiempo administrativo en un 60%.",
       color: "from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20",
