@@ -49,7 +49,7 @@ function RegistrarCitaContent() {
       .finally(() => {
         setLoadingFactura(false)
       })
-  }, [noFactura])
+  }, [noFactura, apiFetch])
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }))

@@ -42,7 +42,7 @@ export function GenericExcelUploader({ uploadEndpoint, entityName }: GenericExce
       toast.success("Archivo cargado correctamente", {
         description: `${rows.length} ${entityName} procesados correctamente`
       })
-    } catch (error) {
+    } catch {
       toast.error("Error al cargar el archivo", {
         description: "Intenta de nuevo o contacta a soporte"
       })

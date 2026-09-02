@@ -10,7 +10,7 @@ import { NumericInput } from "@/components/numeric-input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
-import { UserIcon, CalendarIcon, CheckIcon, ArrowRightIcon, ArrowLeftIcon, StethoscopeIcon } from "lucide-react"
+import { UserIcon, CalendarIcon, CheckIcon, ArrowRightIcon, ArrowLeftIcon } from "lucide-react"
 
 const STEPS = [
   { label: "Datos del Paciente", icon: <UserIcon className="size-4" /> },
@@ -55,7 +55,7 @@ export default function RegistrarPacientePage() {
   async function handleSubmit() {
     setLoading(true)
     try {
-      const pacienteRes = await apiFetch("/crud/pacientes", {
+      await apiFetch("/crud/pacientes", {
         method: "POST",
         body: JSON.stringify({
           ...paciente,

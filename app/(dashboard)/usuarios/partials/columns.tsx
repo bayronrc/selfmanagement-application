@@ -14,26 +14,25 @@ const ROL_COLORS: Record<string, string> = {
 export function getColumns(onRefresh: () => void, onEdit: (row: Usuario) => void): ColumnDef<Usuario>[] {
   return [
     { accessorKey: "documento", header: "Documento" },
-    { accessorKey: "nombre", header: "Nombre" },
-    { accessorKey: "apellido", header: "Apellido" },
+    { accessorKey: "firstName", header: "Nombre" },
+    { accessorKey: "lastName", header: "Apellido" },
     { accessorKey: "email", header: "Email" },
-    { accessorKey: "telefono", header: "Telefono" },
     {
-      accessorKey: "rol",
+      accessorKey: "role",
       header: "Rol",
       cell: ({ row }) => {
-        const v = row.getValue("rol") as string;
+        const v = row.getValue("role") as string;
         const color = ROL_COLORS[v] || "bg-gray-50 text-gray-700 border-gray-200";
         return <Badge variant="outline" className={`capitalize ${color}`}>{v || "N/A"}</Badge>
       }
     },
     {
-      accessorKey: "estado",
+      accessorKey: "status",
       header: "Estado",
       cell: ({ row }) => {
-        const v = row.getValue("estado");
-        if (v === "activo") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Activo</Badge>
-        if (v === "inactivo") return <Badge variant="destructive" className="capitalize">Inactivo</Badge>
+        const v = row.getValue("status");
+        if (v === "active") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Activo</Badge>
+        if (v === "inactive") return <Badge variant="destructive" className="capitalize">Inactivo</Badge>
         return <Badge variant="outline" className="capitalize">{String(v ?? "N/A")}</Badge>
       }
     },
