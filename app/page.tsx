@@ -22,10 +22,10 @@ export default async function HomePage() {
       color: "from-rose-50 to-pink-50 dark:from-rose-950/20 dark:to-pink-950/20",
     },
     {
-      icon: <ShieldCheckIcon className="size-6 text-emerald-500" />,
+      icon: <ShieldCheckIcon className="size-6 text-blue-500" />,
       title: "Datos Seguros",
       description: "Protección avanzada de datos sensibles con cifrado de extremo a extremo.",
-      color: "from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20",
+      color: "from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20",
     },
     {
       icon: <ClockIcon className="size-6 text-blue-500" />,
@@ -46,7 +46,7 @@ export default async function HomePage() {
       {/* --- Navbar --- */}
       <header className="container mx-auto flex items-center justify-between py-6 px-4 md:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-lg shadow-emerald-500/20">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-blue-500/20">
             <HeartPulseIcon className="size-5 text-white" />
           </div>
           <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">

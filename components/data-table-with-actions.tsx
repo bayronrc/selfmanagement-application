@@ -79,7 +79,7 @@ export function DataTableWithActions<TData, TValue>({
           placeholder={searchPlaceholder}
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="max-w-sm border-slate-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+          className="max-w-sm border-slate-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-emerald-500/50 transition-all duration-200"
         />
         {headerExtra}
       </div>
@@ -87,7 +87,7 @@ export function DataTableWithActions<TData, TValue>({
         <Table>
           <TableHeader className="items-center">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/80 border-b-2 border-slate-200 dark:border-slate-700 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100">
+              <TableRow key={headerGroup.id} className="[&_tr]:bg-emerald-50 dark:[&_tr]:bg-emerald-950/20 [&_tr]:border-b border-b border-emerald-100 dark:border-emerald-900/30 [&_th]:font-medium [&_th]:text-emerald-800 dark:[&_th]:text-emerald-200">
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id} className="font-semibold text-slate-700 dark:text-slate-300 py-3">
                     {header.isPlaceholder
@@ -121,9 +121,9 @@ export function DataTableWithActions<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
-                  No results.
-                </TableCell>
+                                <TableCell colSpan={columns.length} className="h-32 text-center text-emerald-500/60 dark:text-emerald-400/50">
+                    No results.
+                  </TableCell>
               </TableRow>
             )}
           </TableBody>
