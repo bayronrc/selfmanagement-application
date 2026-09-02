@@ -41,7 +41,7 @@ const data = {
     {
       title: "Citas",
       url: "/citas",
-      icon: <CalendarIcon className="text-teal-500" />,
+      icon: <CalendarIcon className="text-emerald-600" />,
       items: [
         { title: "Registrar Cita", url: "/citas/registrar" },
         { title: "Cargar Citas", url: "/citas/upload" }
@@ -50,12 +50,12 @@ const data = {
     {
       title: "Historia Clinica",
       url: "/historia-clinica",
-      icon: <FileTextIcon className="text-indigo-500" />,
+      icon: <FileTextIcon className="text-emerald-400" />,
     },
     {
       title: "Ordenes",
       url: "/ordenes",
-      icon: <ClipboardListIcon className="text-violet-500" />,
+      icon: <ClipboardListIcon className="text-blue-500" />,
       items: [
         { title: "Cargar Ordenes", url: "/ordenes/upload" }
       ]
@@ -73,7 +73,7 @@ const data = {
     {
       title: "Reportes",
       url: "/reportes",
-      icon: <BarChart3Icon className="text-gray-500" />,
+      icon: <BarChart3Icon className="text-purple-500" />,
     },
   ],
 }
@@ -94,14 +94,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {...props}
     >
       <SidebarHeader className="p-0 border-b-0">
-        <div className="m-2 rounded-xl bg-gradient-to-br from-teal-500 via-emerald-500 to-teal-600 p-4 shadow-lg shadow-emerald-500/20">
-          <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
+        <div className="p-3 lg:p-4">
+          <Link href="/dashboard" className="flex items-center gap-2.5">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
               <HeartPulseIcon className="size-5 text-white" />
             </div>
-            <div className="grid flex-1 text-left">
-              <span className="truncate text-lg font-bold text-white">MediApp</span>
-              <span className="truncate text-xs text-emerald-100">Gestión médica</span>
+            <div className="grid lg:grid-cols-2 gap-1.5 text-left">
+              <span className="truncate text-lg font-bold text-white">Proinsalud</span>
+              <span className="truncate text-xs text-emerald-50/90">Gestión médica</span>
             </div>
           </Link>
         </div>

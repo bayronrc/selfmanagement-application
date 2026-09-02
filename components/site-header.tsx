@@ -59,10 +59,10 @@ export function SiteHeader() {
   const isId = (s: string) => /^[a-f0-9-]{8,}$|^\d+$/.test(s) // numérico o UUID
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-background via-background to-teal-50/50 dark:to-teal-950/20 backdrop-blur-sm">
-      <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
+    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-background via-background to-emerald-50/50 dark:to-emerald-950/20 backdrop-blur-sm">
+      <div className="flex h-(--header-height) w-full items-center justify-between gap-1 sm:gap-2 px-2 sm:px-4">
         <Button
-          className="h-8 w-8 hover:bg-teal-100 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+          className="h-8 w-8 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -74,7 +74,7 @@ export function SiteHeader() {
           className="mr-2 data-vertical:h-4 data-vertical:self-auto"
         />
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="hidden sm:flex">
             {/* Inicio siempre fijo */}
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
@@ -115,6 +115,16 @@ export function SiteHeader() {
               )
             })}
           </BreadcrumbList>
+          {/* Mobile: solo icono de casa */}
+          <div className="flex sm:hidden items-center">
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/dashboard" className="flex items-center">
+                  <span className="text-lg">🏠</span>
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </div>
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-3">
           <OrganizationSwitcher
