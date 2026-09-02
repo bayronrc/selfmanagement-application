@@ -38,7 +38,7 @@ export function ExcelUploader() {
       toast.success("Archivo cargado correctamente", {
         description: `${rows.length} ordenes procesadas correctamente`
       })
-    } catch (error) {
+    } catch {
       toast.error("Error al cargar el archivo", {
         description: "Intenta de nuevo o contacta a soporte"
       })

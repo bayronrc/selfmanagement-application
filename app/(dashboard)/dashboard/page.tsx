@@ -7,11 +7,7 @@ import {
   UsersIcon,
   CalendarIcon,
   ClipboardListIcon,
-  StethoscopeIcon,
-  HospitalIcon,
-  ActivityIcon,
   TrendingUpIcon,
-  ReceiptIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -19,10 +15,6 @@ interface DashboardStats {
   pacientes: number;
   citas: number;
   ordenes: number;
-  profesionales: number;
-  servicios: number;
-  citas_pendientes: number;
-  facturacion: number;
 }
 
 export default function Page() {
@@ -31,10 +23,6 @@ export default function Page() {
     pacientes: 0,
     citas: 0,
     ordenes: 0,
-    profesionales: 0,
-    servicios: 0,
-    citas_pendientes: 0,
-    facturacion: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -55,64 +43,32 @@ export default function Page() {
     }
     cargarStats();
     return () => { isMounted = false; };
-  }, []);
+  }, [apiFetch]);
 
   const statCards = [
-    {
-      title: "Pacientes",
-      value: stats.pacientes,
-      icon: <UsersIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20",
-      iconBg: "bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/25",
-      url: "/pacientes",
-    },
-    {
-      title: "Profesionales",
-      value: stats.profesionales,
-      icon: <StethoscopeIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-violet-50 to-purple-100/50 dark:from-violet-950/30 dark:to-purple-900/20",
-      iconBg: "bg-gradient-to-br from-violet-400 to-purple-600 shadow-lg shadow-violet-500/25",
-      url: "/usuarios",
-    },
     {
       title: "Citas",
       value: stats.citas,
       icon: <CalendarIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-emerald-50 to-teal-100/50 dark:from-emerald-950/30 dark:to-teal-900/20",
-      iconBg: "bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/25",
-      url: "/citas",
-    },
-    {
-      title: "Citas Pendientes",
-      value: stats.citas_pendientes,
-      icon: <ActivityIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-amber-50 to-orange-100/50 dark:from-amber-950/30 dark:to-orange-900/20",
-      iconBg: "bg-gradient-to-br from-amber-400 to-orange-600 shadow-lg shadow-amber-500/25",
+      bg: "bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20",
+      iconBg: "bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/25",
       url: "/citas",
     },
     {
       title: "Órdenes",
       value: stats.ordenes,
       icon: <ClipboardListIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-rose-50 to-pink-100/50 dark:from-rose-950/30 dark:to-pink-900/20",
-      iconBg: "bg-gradient-to-br from-rose-400 to-pink-600 shadow-lg shadow-rose-500/25",
+      bg: "bg-gradient-to-br from-orange-50 to-amber-100/50 dark:from-orange-950/30 dark:to-amber-900/20",
+      iconBg: "bg-gradient-to-br from-orange-400 to-red-500 shadow-lg shadow-orange-500/25",
       url: "/ordenes",
     },
     {
-      title: "Servicios",
-      value: stats.servicios,
-      icon: <HospitalIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-cyan-50 to-sky-100/50 dark:from-cyan-950/30 dark:to-sky-900/20",
-      iconBg: "bg-gradient-to-br from-cyan-400 to-sky-600 shadow-lg shadow-cyan-500/25",
-      url: "/facturacion",
-    },
-    {
-      title: "Facturacion",
-      value: stats.facturacion,
-      icon: <ReceiptIcon className="size-6 text-white" />,
-      bg: "bg-gradient-to-br from-amber-50 to-yellow-100/50 dark:from-amber-950/30 dark:to-yellow-900/20",
-      iconBg: "bg-gradient-to-br from-amber-400 to-yellow-600 shadow-lg shadow-amber-500/25",
-      url: "/facturacion",
+      title: "Usuarios",
+      value: stats.pacientes,
+      icon: <UsersIcon className="size-6 text-white" />,
+      bg: "bg-gradient-to-br from-blue-50 to-blue-200/50 dark:from-blue-950/30 dark:to-blue-900/20",
+      iconBg: "bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-600/25",
+      url: "/usuarios",
     },
   ];
 
@@ -120,12 +76,12 @@ export default function Page() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
             Dashboard
           </h1>
           <p className="text-muted-foreground mt-1">Resumen general del sistema</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-lg shadow-emerald-500/20">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg shadow-orange-500/20">
           <TrendingUpIcon className="size-4" />
           <span className="text-sm font-medium">Panel de Control</span>
         </div>

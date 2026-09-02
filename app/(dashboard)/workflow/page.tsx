@@ -1,7 +1,7 @@
 "use client"
 
 import { useApi } from "@/lib/api-client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -11,10 +11,9 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import {
-  ReceiptIcon, CalendarIcon, FileTextIcon, ClipboardListIcon, BarChart3Icon,
-  SaveIcon, ArrowRightIcon, ArrowLeftIcon, CheckIcon, UserIcon, StethoscopeIcon,
+  ReceiptIcon, CalendarIcon, FileTextIcon, ClipboardListIcon,
+  SaveIcon, ArrowRightIcon, ArrowLeftIcon, CheckIcon, StethoscopeIcon,
 } from "lucide-react"
-import Link from "next/link"
 
 const STEPS = [
   { label: "Facturacion", icon: <ReceiptIcon className="size-4" /> },
@@ -24,13 +23,13 @@ const STEPS = [
 ]
 
 const ORDEN_TYPES = [
-  { key: "laboratorio", label: "Laboratorio", color: "text-rose-600 dark:text-rose-400" },
-  { key: "imagen_diagnostica", label: "Imagen Diagnostica", color: "text-blue-600 dark:text-blue-400" },
-  { key: "medicamentos", label: "Medicamentos", color: "text-emerald-600 dark:text-emerald-400" },
-  { key: "procedimientos", label: "Procedimientos", color: "text-violet-600 dark:text-violet-400" },
-  { key: "remision", label: "Remision", color: "text-amber-600 dark:text-amber-400" },
-  { key: "interconsulta", label: "Interconsulta", color: "text-cyan-600 dark:text-cyan-400" },
-  { key: "control_medico", label: "Control Medico", color: "text-purple-600 dark:text-purple-400" },
+  { key: "laboratorio", label: "Laboratorio", color: "text-blue-600 dark:text-blue-400" },
+  { key: "imagen_diagnostica", label: "Imagen Diagnostica", color: "text-blue-700 dark:text-blue-400" },
+  { key: "medicamentos", label: "Medicamentos", color: "text-orange-600 dark:text-orange-400" },
+  { key: "procedimientos", label: "Procedimientos", color: "text-orange-700 dark:text-orange-400" },
+  { key: "remision", label: "Remision", color: "text-blue-600 dark:text-blue-400" },
+  { key: "interconsulta", label: "Interconsulta", color: "text-orange-500 dark:text-orange-400" },
+  { key: "control_medico", label: "Control Medico", color: "text-blue-700 dark:text-blue-400" },
 ]
 
 export default function WorkflowPage() {
@@ -161,11 +160,11 @@ export default function WorkflowPage() {
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/20">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-800 shadow-lg shadow-blue-600/20">
             <StethoscopeIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
               Registro de Paciente
             </h1>
             <p className="text-sm text-muted-foreground">Flujo completo: Facturacion, Citas, Historia y Ordenes</p>
@@ -174,7 +173,7 @@ export default function WorkflowPage() {
         {noFactura && (
           <div className="text-right">
             <p className="text-xs text-muted-foreground">No. Factura</p>
-            <p className="text-sm font-bold text-emerald-600">{noFactura}</p>
+            <p className="text-sm font-bold text-orange-600">{noFactura}</p>
           </div>
         )}
       </div>
@@ -188,21 +187,21 @@ export default function WorkflowPage() {
               disabled={i > step}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 i === step
-                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25"
+                  ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-600/25"
                   : i < step
-                    ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 cursor-pointer hover:bg-emerald-200"
+                    ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 cursor-pointer hover:bg-orange-200"
                     : "bg-muted text-muted-foreground"
               }`}
             >
               <span className={`size-6 flex items-center justify-center rounded-full text-xs font-bold ${
-                i < step ? "bg-emerald-500 text-white" : i === step ? "bg-white/20" : "bg-muted-foreground/20"
+                i < step ? "bg-orange-500 text-white" : i === step ? "bg-white/20" : "bg-muted-foreground/20"
               }`}>
                 {i < step ? <CheckIcon className="size-3" /> : i + 1}
               </span>
               <span className="hidden sm:inline">{s.label}</span>
             </button>
             {i < STEPS.length - 1 && (
-              <div className={`w-10 h-0.5 rounded-full transition-colors ${i < step ? "bg-emerald-400" : "bg-muted"}`} />
+              <div className={`w-10 h-0.5 rounded-full transition-colors ${i < step ? "bg-orange-400" : "bg-muted"}`} />
             )}
           </div>
         ))}
@@ -215,7 +214,7 @@ export default function WorkflowPage() {
         {step === 0 && (
           <div className="space-y-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 text-white">
+              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-red-500 text-white">
                 <ReceiptIcon className="size-4" />
               </div>
               <h2 className="font-semibold text-lg">Datos del Paciente y Facturacion</h2>
@@ -269,7 +268,7 @@ export default function WorkflowPage() {
         {step === 1 && (
           <div className="space-y-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 text-white">
+              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-red-500 text-white">
                 <CalendarIcon className="size-4" />
               </div>
               <h2 className="font-semibold text-lg">Registrar Cita</h2>
@@ -319,8 +318,8 @@ export default function WorkflowPage() {
                 <p className="text-sm"><span className="font-medium">Servicio:</span> {facturacion.servicio || "N/A"}</p>
                 <p className="text-sm"><span className="font-medium">Valor:</span> ${facturacion.valor || "0"}</p>
               </div>
-              <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/20 p-4 space-y-1">
-                <h4 className="text-xs font-medium text-emerald-700 dark:text-emerald-400 flex items-center gap-1"><CalendarIcon className="size-3" /> Cita</h4>
+              <div className="rounded-lg bg-orange-50 dark:bg-orange-950/20 p-4 space-y-1">
+                <h4 className="text-xs font-medium text-orange-700 dark:text-orange-400 flex items-center gap-1"><CalendarIcon className="size-3" /> Cita</h4>
                 <p className="text-sm"><span className="font-medium">Fecha:</span> {cita.fecha} {cita.hora}</p>
                 <p className="text-sm"><span className="font-medium">Profesional:</span> {cita.profesional}</p>
                 <p className="text-sm"><span className="font-medium">Especialidad:</span> {cita.especialidad || "N/A"}</p>
@@ -345,7 +344,7 @@ export default function WorkflowPage() {
         {step === 3 && (
           <div className="space-y-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-violet-400 to-purple-600 text-white">
+              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-400 to-blue-700 text-white">
                 <ClipboardListIcon className="size-4" />
               </div>
               <h2 className="font-semibold text-lg">Ordenes Medicas</h2>
@@ -377,25 +376,25 @@ export default function WorkflowPage() {
 
           {step === 0 && (
             <Button onClick={handleSaveFacturacion} disabled={!factValid || loading}
-              className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg shadow-amber-500/20 gap-2">
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg shadow-orange-500/20 gap-2">
               {loading ? "Guardando..." : "Guardar Factura"} <ArrowRightIcon className="size-4" />
             </Button>
           )}
           {step === 1 && (
             <Button onClick={handleSaveCita} disabled={!citaValid || loading}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/20 gap-2">
+              className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-lg shadow-orange-500/20 gap-2">
               {loading ? "Guardando..." : "Guardar Cita"} <ArrowRightIcon className="size-4" />
             </Button>
           )}
           {step === 2 && (
             <Button onClick={handleSaveHistoria}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/20 gap-2">
+              className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white shadow-lg shadow-blue-600/20 gap-2">
               Siguiente <ArrowRightIcon className="size-4" />
             </Button>
           )}
           {step === 3 && (
             <Button onClick={handleSaveOrdenes} disabled={loading}
-              className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-lg shadow-violet-500/20 gap-2">
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg shadow-orange-500/20 gap-2">
               <SaveIcon className="size-4" /> {loading ? "Guardando..." : "Guardar y Ver Reportes"}
             </Button>
           )}

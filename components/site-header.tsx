@@ -58,10 +58,10 @@ export function SiteHeader() {
   const isId = (s: string) => /^[a-f0-9-]{8,}$|^\d+$/.test(s) // numérico o UUID
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-background via-background to-teal-50/50 dark:to-teal-950/20 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 shadow-md">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
-          className="h-8 w-8 hover:bg-teal-100 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+          className="h-8 w-8 text-white hover:bg-white/20 hover:text-white transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -70,14 +70,14 @@ export function SiteHeader() {
         </Button>
         <Separator
           orientation="vertical"
-          className="mr-2 data-vertical:h-4 data-vertical:self-auto"
+          className="mr-2 data-vertical:h-4 data-vertical:self-auto bg-white/30"
         />
         <Breadcrumb>
           <BreadcrumbList>
             {/* Inicio siempre fijo */}
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/dashboard" className="flex items-center gap-1">
+                <Link href="/dashboard" className="flex items-center gap-1 text-white/90 hover:text-white">
                   <span className="text-sm">🏠</span>
                   <span>Inicio</span>
                 </Link>
@@ -95,16 +95,16 @@ export function SiteHeader() {
               return (
                 <span key={href} className="flex items-center gap-2">
                   <BreadcrumbSeparator>
-                    <Slash className="h-3 w-3 text-muted-foreground" />
+                    <Slash className="h-3 w-3 text-white/40" />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="font-medium">
+                      <BreadcrumbPage className="font-medium text-white">
                         {display}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link href={href} className="text-muted-foreground hover:text-foreground transition-colors">
+                        <Link href={href} className="text-white/70 hover:text-white transition-colors">
                           {display}
                         </Link>
                       </BreadcrumbLink>
@@ -116,7 +116,7 @@ export function SiteHeader() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="ml-auto">
-          <ThemeToggle />
+          <ThemeToggle className="text-white hover:text-white" />
         </div>
       </div>
     </header>

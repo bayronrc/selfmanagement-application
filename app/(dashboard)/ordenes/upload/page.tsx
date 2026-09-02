@@ -3,6 +3,7 @@
 import { GenericExcelUploader } from "@/components/generic-excel-uploader";
 import { TemplateDownloader } from "@/components/template-downloader";
 import { ManualEntryDialog } from "@/components/manual-entry-dialog";
+import { PermissionGuard } from "@/components/permission-guard";
 
 const ORDEN_FIELDS = [
   { name: "no_factura", label: "No. Factura", required: true, placeholder: "FAC-YYYYMMDD-NNNN" },
@@ -24,15 +25,17 @@ const ORDEN_FIELDS = [
 
 export default function UploadOrderPage() {
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Cargar Ordenes</h1>
-        <div className="flex gap-2">
-          <TemplateDownloader entity="ordenes" />
-          <ManualEntryDialog entity="ordenes" fields={ORDEN_FIELDS} onCreated={() => window.location.reload()} />
+    <PermissionGuard permission="org:orders:read">
+      <div className="p-6 max-w-2xl mx-auto">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">Cargar Ordenes</h1>
+          <div className="flex gap-2">
+            <TemplateDownloader entity="ordenes" />
+            <ManualEntryDialog entity="ordenes" fields={ORDEN_FIELDS} onCreated={() => window.location.reload()} />
+          </div>
         </div>
+        <GenericExcelUploader uploadEndpoint="/orders/upload-batches" entityName="ordenes" />
       </div>
-      <GenericExcelUploader uploadEndpoint="/orders/upload-batches" entityName="ordenes" />
-    </div>
+    </PermissionGuard>
   )
 }

@@ -79,7 +79,7 @@ export function DataTableWithActions<TData, TValue>({
           placeholder={searchPlaceholder}
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="max-w-sm border-slate-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+          className="max-w-sm border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:ring-orange-500"
         />
         {headerExtra}
       </div>
@@ -87,9 +87,9 @@ export function DataTableWithActions<TData, TValue>({
         <Table>
           <TableHeader className="items-center">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/80 border-b-2 border-slate-200 dark:border-slate-700 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100">
+              <TableRow key={headerGroup.id} className="bg-gradient-to-r from-blue-100/60 to-blue-50 dark:from-blue-900/40 dark:to-blue-950/30 border-b-2 border-blue-200 dark:border-blue-800 hover:bg-gradient-to-r hover:from-blue-100/60 hover:to-blue-50">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="font-semibold text-slate-700 dark:text-slate-300 py-3">
+                  <TableHead key={header.id} className="font-semibold text-blue-900 dark:text-blue-200 py-3">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -108,8 +108,8 @@ export function DataTableWithActions<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className={index % 2 === 0
-                    ? "bg-white dark:bg-slate-900/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-colors"
-                    : "bg-slate-50/50 dark:bg-slate-800/30 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-colors"
+                    ? "bg-white dark:bg-slate-900/50 hover:bg-orange-50/50 dark:hover:bg-orange-950/20 transition-colors"
+                    : "bg-slate-50/50 dark:bg-slate-800/30 hover:bg-orange-50/50 dark:hover:bg-orange-950/20 transition-colors"
                   }
                 >
                   {row.getVisibleCells().map((cell) => (

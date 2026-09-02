@@ -18,9 +18,9 @@ export function getColumns(onRefresh: () => void, onEdit: (row: Orden) => void):
       header: "Estado",
       cell: ({ row }) => {
         const v = row.getValue("status")
-        if (v === "aprobado") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Aprobado</Badge>
+        if (v === "aprobado") return <Badge variant="outline" className="capitalize bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900">Aprobado</Badge>
         if (v === "rechazado") return <Badge variant="destructive" className="capitalize">Rechazado</Badge>
-        return <Badge variant="outline" className="capitalize bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900">Pendiente</Badge>
+        return <Badge variant="outline" className="capitalize bg-orange-50 text-orange-600 border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900">Pendiente</Badge>
       }
     },
     {

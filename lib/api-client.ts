@@ -1,11 +1,11 @@
 import { useAuth } from "@clerk/nextjs";
+import { useCallback } from "react";
 
 export function useApi(){
   const {getToken} = useAuth()
 
-  async function apiFetch(endpoint:string, options?:RequestInit) {
+  const apiFetch = useCallback(async (endpoint:string, options?:RequestInit) => {
     const token = await getToken();
-    console.log(process.env.NEXT_PUBLIC_API_URL)
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options,
       headers: {
@@ -16,6 +16,7 @@ export function useApi(){
     })
     if (!response.ok)throw new Error(`API error: ${response.status}`)
      return await response.json()
-  }
+  }, [getToken])
+
   return {apiFetch}
 }
