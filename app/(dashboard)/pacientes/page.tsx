@@ -58,7 +58,7 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch]);
+  }, [page, limit, debouncedSearch, apiFetch]);
 
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 

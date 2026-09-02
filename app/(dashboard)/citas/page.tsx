@@ -70,7 +70,7 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch, filter]);
+  }, [page, limit, debouncedSearch, filter, apiFetch]);
 
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useApi } from "@/lib/api-client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -11,10 +11,9 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 import {
-  ReceiptIcon, CalendarIcon, FileTextIcon, ClipboardListIcon, BarChart3Icon,
-  SaveIcon, ArrowRightIcon, ArrowLeftIcon, CheckIcon, UserIcon, StethoscopeIcon,
+  ReceiptIcon, CalendarIcon, FileTextIcon, ClipboardListIcon,
+  SaveIcon, ArrowRightIcon, ArrowLeftIcon, CheckIcon, StethoscopeIcon,
 } from "lucide-react"
-import Link from "next/link"
 
 const STEPS = [
   { label: "Facturacion", icon: <ReceiptIcon className="size-4" /> },

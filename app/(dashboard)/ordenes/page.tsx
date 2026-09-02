@@ -6,9 +6,11 @@ import { ExportButton } from "@/components/export-button";
 import { useApi } from "@/lib/api-client";
 import { useAuth } from "@clerk/nextjs";
 import { Orden, OrdenPaginationResponse } from "@/types/orden";
-import { ClipboardListIcon } from "lucide-react";
+import { ClipboardListIcon, ShieldAlertIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { getColumns } from "./partials/columns";
+import { Protect } from "@/components/auth/protect";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 const FIELDS = [
   { name: "no_factura", label: "No. Factura", section: "Datos de la Orden" },
@@ -72,54 +74,64 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch, isLoaded, orgId]);
+  }, [page, limit, debouncedSearch, isLoaded, orgId, apiFetch]);
 
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-rose-400 to-pink-600 shadow-lg shadow-rose-500/20">
-            <ClipboardListIcon className="size-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-500 bg-clip-text text-transparent">
-              Órdenes
-            </h1>
-            <p className="text-sm text-muted-foreground">Gestión de órdenes médicas</p>
+    <Protect permission="org:orders:read" fallback={
+       <Alert variant="destructive" className="mt-4">
+            <ShieldAlertIcon className="size-4" />
+            <AlertTitle>Acceso Restringido</AlertTitle>
+            <AlertDescription>
+              No tienes el permiso <code className="font-semibold">org:orders:read</code> en esta organización para cargar o crear órdenes médicas. Por favor solicita permisos al administrador de tu organización.
+            </AlertDescription>
+          </Alert>
+    }>
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-rose-400 to-pink-600 shadow-lg shadow-rose-500/20">
+              <ClipboardListIcon className="size-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-500 bg-clip-text text-transparent">
+                Órdenes
+              </h1>
+              <p className="text-sm text-muted-foreground">Gestión de órdenes médicas</p>
+            </div>
           </div>
         </div>
-      </div>
-      <DataTableWithActions
-        columns={columns}
-        data={data}
-        loading={loading}
-        page={page}
-        limit={limit}
-        total={total}
-        totalPages={totalPages}
-        search={search}
-        searchPlaceholder="Buscar orden..."
-        totalLabel="ordenes"
-        onSearchChange={setSearch}
-        onPageChange={setPage}
-        onLimitChange={(l) => { setLimit(l); setPage(1); }}
-        headerExtra={<ExportButton entity="ordenes" search={debouncedSearch} />}
-      />
-      {editRow && (
-        <EditDialog
-          entity="ordenes"
-          itemId={editRow.id!}
-          fields={FIELDS}
-          initialData={editRow}
-          open={!!editRow}
-          onClose={() => setEditRow(null)}
-          onSaved={cargarDatos}
+        <DataTableWithActions
+          columns={columns}
+          data={data}
+          loading={loading}
+          page={page}
+          limit={limit}
+          total={total}
+          totalPages={totalPages}
+          search={search}
+          searchPlaceholder="Buscar orden..."
+          totalLabel="ordenes"
+          onSearchChange={setSearch}
+          onPageChange={setPage}
+          onLimitChange={(l) => { setLimit(l); setPage(1); }}
+          headerExtra={<ExportButton entity="ordenes" search={debouncedSearch} />}
         />
-      )}
-    </div>
+        {editRow && (
+          <EditDialog
+            entity="ordenes"
+            itemId={editRow.id!}
+            fields={FIELDS}
+            initialData={editRow}
+            open={!!editRow}
+            onClose={() => setEditRow(null)}
+            onSaved={cargarDatos}
+          />
+        )}
+      </div>
+    </Protect>
   );
 }
