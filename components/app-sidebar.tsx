@@ -10,6 +10,7 @@ import {
 import { useUser } from "@clerk/nextjs"
 import {
   CalendarIcon,
+  ClipboardListIcon,
   HeartPulseIcon,
   UserCogIcon,
   ClipboardListIcon,
@@ -71,8 +72,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader className="p-0 border-b-0">
         <div className="m-2 rounded-xl bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 p-4 shadow-lg shadow-blue-700/30">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
-              <HeartPulseIcon className="size-5 text-white" />
+            <div className="flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg shadow-orange-900/40 ring-2 ring-white/30">
+              <HeartPulseIcon className="size-6 text-white" />
             </div>
             <div className="grid flex-1 text-left">
               <span className="truncate text-lg font-bold text-white">MediApp</span>

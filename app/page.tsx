@@ -17,6 +17,7 @@ export default async function HomePage() {
   const features = [
     {
       icon: <HeartPulseIcon className="size-6 text-orange-500" />,
+      icon: <HeartPulseIcon className="size-6 text-orange-500" />,
       title: "Gestión Integral",
       description: "Administra pacientes, citas y órdenes médicas en un solo lugar.",
       color: "from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20",
@@ -28,6 +29,7 @@ export default async function HomePage() {
       color: "from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-950/20",
     },
     {
+      icon: <ClockIcon className="size-6 text-orange-500" />,
       icon: <ClockIcon className="size-6 text-orange-500" />,
       title: "Ahorro de Tiempo",
       description: "Automatiza procesos y reduce el tiempo administrativo en un 60%.",
@@ -190,7 +192,7 @@ export default async function HomePage() {
           {features.map((f) => (
             <div
               key={f.title}
-              className={`rounded-2xl p-6 bg-gradient-to-br ${f.color} border border-white/50 dark:border-white/10 hover:scale-[1.02] transition-all duration-200`}
+              className={`rounded-2xl p-6 bg-gradient-to-br ${f.color} border border-blue-100 dark:border-white/10 hover:scale-[1.02] transition-all duration-200`}
             >
               <div className="mb-4">{f.icon}</div>
               <h3 className="font-semibold text-lg mb-2">{f.title}</h3>

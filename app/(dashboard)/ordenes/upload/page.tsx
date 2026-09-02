@@ -1,9 +1,11 @@
 "use client"
 
+import { Protect } from "@/components/auth/protect";
 import { GenericExcelUploader } from "@/components/generic-excel-uploader";
 import { TemplateDownloader } from "@/components/template-downloader";
 import { ManualEntryDialog } from "@/components/manual-entry-dialog";
-import { PermissionGuard } from "@/components/permission-guard";
+import { ShieldAlertIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ORDEN_FIELDS = [
   { name: "no_factura", label: "No. Factura", required: true, placeholder: "FAC-YYYYMMDD-NNNN" },
@@ -25,17 +27,34 @@ const ORDEN_FIELDS = [
 
 export default function UploadOrderPage() {
   return (
-    <PermissionGuard permission="org:orders:read">
-      <div className="p-6 max-w-2xl mx-auto">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">Cargar Ordenes</h1>
+    <div className="p-6 max-w-2xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">Cargar Órdenes Médicas</h1>
+          <p className="text-sm text-muted-foreground">Importar lotes de órdenes para la organización activa</p>
+        </div>
+        <Protect permission="org:orders:create">
           <div className="flex gap-2">
             <TemplateDownloader entity="ordenes" />
             <ManualEntryDialog entity="ordenes" fields={ORDEN_FIELDS} onCreated={() => window.location.reload()} />
           </div>
-        </div>
-        <GenericExcelUploader uploadEndpoint="/orders/upload-batches" entityName="ordenes" />
+        </Protect>
       </div>
-    </PermissionGuard>
+
+      <Protect
+        permission="org:orders:create"
+        fallback={
+          <Alert variant="destructive" className="mt-4">
+            <ShieldAlertIcon className="size-4" />
+            <AlertTitle>Acceso Restringido</AlertTitle>
+            <AlertDescription>
+              No tienes el permiso <code className="font-semibold">org:orders:create</code> en esta organización para cargar o crear órdenes médicas. Por favor solicita permisos al administrador de tu organización.
+            </AlertDescription>
+          </Alert>
+        }
+      >
+        <GenericExcelUploader uploadEndpoint="/orders/upload-batches" entityName="ordenes" />
+      </Protect>
+    </div>
   )
 }

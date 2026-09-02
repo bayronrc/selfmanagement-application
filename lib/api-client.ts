@@ -1,22 +1,38 @@
 import { useAuth } from "@clerk/nextjs";
 import { useCallback } from "react";
 
-export function useApi(){
-  const {getToken} = useAuth()
+export function useApi() {
+  const { getToken } = useAuth();
 
-  const apiFetch = useCallback(async (endpoint:string, options?:RequestInit) => {
+  const apiFetch = useCallback(async function apiFetch(endpoint: string, options?: RequestInit) {
     const token = await getToken();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       ...options,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         ...options?.headers,
       },
-    })
-    if (!response.ok)throw new Error(`API error: ${response.status}`)
-     return await response.json()
-  }, [getToken])
+    });
 
-  return {apiFetch}
+    if (!response.ok) {
+      let errorMessage = `API error: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        if (errorData?.detail) {
+          errorMessage = typeof errorData.detail === "string"
+            ? errorData.detail
+            : JSON.stringify(errorData.detail);
+        }
+      } catch {
+        // Fallback al status por defecto si no es JSON
+      }
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  }, [getToken]);
+
+  return { apiFetch };
 }

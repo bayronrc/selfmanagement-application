@@ -11,10 +11,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
+import { OrganizationSwitcher } from "@clerk/nextjs"
 import { PanelLeftIcon, Slash } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { NotificationBell } from "@/components/notification-bell"
 
 const routeIcons: Record<string, string> = {
   dashboard: '🏠',
@@ -59,9 +61,11 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 shadow-md">
+    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 shadow-md shadow-blue-900/20">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
           className="h-8 w-8 text-white hover:bg-white/20 hover:text-white transition-colors"
+          className="h-8 w-8 text-white hover:bg-white/15 hover:text-white transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -70,7 +74,7 @@ export function SiteHeader() {
         </Button>
         <Separator
           orientation="vertical"
-          className="mr-2 data-vertical:h-4 data-vertical:self-auto bg-white/30"
+          className="mr-2 data-vertical:h-4 data-vertical:self-auto bg-white/30 bg-white/25"
         />
         <Breadcrumb>
           <BreadcrumbList>
@@ -79,7 +83,7 @@ export function SiteHeader() {
               <BreadcrumbLink asChild>
                 <Link href="/dashboard" className="flex items-center gap-1 text-white/90 hover:text-white">
                   <span className="text-sm">🏠</span>
-                  <span>Inicio</span>
+                  <span className="text-blue-50 hover:text-white">Inicio</span>
                 </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -96,15 +100,17 @@ export function SiteHeader() {
                 <span key={href} className="flex items-center gap-2">
                   <BreadcrumbSeparator>
                     <Slash className="h-3 w-3 text-white/40" />
+                    <Slash className="h-3 w-3 text-blue-200" />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="font-medium text-white">
+                      <BreadcrumbPage className="font-medium text-white text-white">
                         {display}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
                         <Link href={href} className="text-white/70 hover:text-white transition-colors">
+                        <Link href={href} className="text-blue-100 hover:text-white transition-colors">
                           {display}
                         </Link>
                       </BreadcrumbLink>
@@ -115,6 +121,21 @@ export function SiteHeader() {
             })}
           </BreadcrumbList>
         </Breadcrumb>
+        <div className="ml-auto flex items-center gap-3">
+          <OrganizationSwitcher
+            hidePersonal={true}
+            afterSelectOrganizationUrl="/dashboard"
+            afterCreateOrganizationUrl="/dashboard"
+            afterLeaveOrganizationUrl="/dashboard"
+            appearance={{
+              elements: {
+                rootBox: "flex items-center",
+                organizationSwitcherTrigger: "flex items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-white/20 transition-colors shadow-xs",
+              }
+            }}
+          />
+          <NotificationBell />
+          <ThemeToggle />
         <div className="ml-auto">
           <ThemeToggle className="text-white hover:text-white" />
         </div>

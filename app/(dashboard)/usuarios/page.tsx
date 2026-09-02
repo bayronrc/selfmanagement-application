@@ -17,20 +17,26 @@ import { NumericInput } from "@/components/numeric-input";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
-type Rol = "administrador" | "invitado" | "paciente";
+type Rol = "admin" | "medico" | "recepcionista" | "paciente";
 
 const ROL_CONFIG: Record<Rol, { label: string; icon: React.ReactNode; color: string; desc: string }> = {
-  administrador: {
+  admin: {
     label: "Administrador",
     icon: <ShieldIcon className="size-5" />,
-    color: "from-orange-500 to-red-500 shadow-orange-500/25",
-    desc: "Control total del sistema",
+    color: "from-purple-500 to-violet-600 shadow-purple-500/25",
+    desc: "Control total + auditoría",
   },
-  invitado: {
-    label: "Invitado",
+  medico: {
+    label: "Médico",
+    icon: <ShieldIcon className="size-5" />,
+    color: "from-emerald-500 to-teal-600 shadow-emerald-500/25",
+    desc: "Citas, órdenes e historia",
+  },
+  recepcionista: {
+    label: "Recepcionista",
     icon: <EyeIcon className="size-5" />,
-    color: "from-blue-500 to-blue-700 shadow-blue-500/25",
-    desc: "Solo lectura",
+    color: "from-amber-500 to-orange-600 shadow-amber-500/25",
+    desc: "Gestión de citas y facturación",
   },
   paciente: {
     label: "Paciente",
@@ -40,13 +46,15 @@ const ROL_CONFIG: Record<Rol, { label: string; icon: React.ReactNode; color: str
   },
 };
 
+const ROLES_OPTS = ["admin", "medico", "recepcionista", "paciente"];
+
 const EDIT_FIELDS_ADMIN = [
   { name: "documento", label: "Documento", type: "numeric" as const, section: "Datos Personales" },
   { name: "nombre", label: "Nombre", section: "Datos Personales" },
   { name: "apellido", label: "Apellido", section: "Datos Personales" },
   { name: "telefono", label: "Telefono", type: "numeric" as const, section: "Contacto" },
   { name: "email", label: "Email", section: "Contacto" },
-  { name: "rol", label: "Rol", type: "select" as const, options: ["administrador", "invitado", "paciente"], section: "Sistema" },
+  { name: "rol", label: "Rol", type: "select" as const, options: ROLES_OPTS, section: "Sistema" },
   { name: "estado", label: "Estado", type: "select" as const, options: ["activo", "inactivo"], section: "Sistema" },
 ];
 
@@ -59,7 +67,7 @@ const EDIT_FIELDS_PACIENTE = [
   { name: "telefono", label: "Telefono", type: "numeric" as const, section: "Contacto" },
   { name: "email", label: "Email", section: "Contacto" },
   { name: "direccion", label: "Direccion", type: "address" as const, section: "Contacto" },
-  { name: "rol", label: "Rol", type: "select" as const, options: ["administrador", "invitado", "paciente"], section: "Sistema" },
+  { name: "rol", label: "Rol", type: "select" as const, options: ROLES_OPTS, section: "Sistema" },
   { name: "estado", label: "Estado", type: "select" as const, options: ["activo", "inactivo"], section: "Sistema" },
 ];
 
@@ -254,7 +262,7 @@ function CreateUserDialog({
           {/* Rol Selection */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Tipo de Usuario</Label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {(Object.keys(ROL_CONFIG) as Rol[]).map((r) => {
                 const cfg = ROL_CONFIG[r];
                 const isActive = rol === r;
