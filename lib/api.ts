@@ -1,7 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"
-
 export async function apiFetch(endpoint:string,options?:RequestInit) {
   const {getToken} = await auth();
   const token = await getToken()

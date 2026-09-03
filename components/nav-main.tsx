@@ -51,7 +51,7 @@ export function NavMain({
                 className={cn(
                   "rounded-xl transition-all duration-200",
                   item.isActive
-                    ? "bg-gradient-to-r from-blue-600/10 to-orange-500/10 text-blue-700 dark:text-blue-300 font-semibold border-l-3 border-blue-600"
+                    ? "bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-orange-700 dark:text-orange-400 font-semibold border-l-3 border-orange-500"
                     : "hover:bg-accent/80"
                 )}
               >
@@ -59,8 +59,8 @@ export function NavMain({
                   <div className={cn(
                     "flex size-9 items-center justify-center rounded-lg transition-all duration-200",
                     item.isActive
-                      ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-md shadow-blue-500/20"
-                      : "bg-muted/50"
+                      ? "bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20"
+                      : "bg-muted/50 text-orange-600 dark:text-orange-400"
                   )}>
                     {renderIcon(item.icon)}
                   </div>

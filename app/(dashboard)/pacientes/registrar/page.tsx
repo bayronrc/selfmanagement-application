@@ -108,19 +108,19 @@ export default function RegistrarPacientePage() {
                 i === step
                   ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25"
                   : i < step
-                    ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 cursor-pointer hover:bg-emerald-200 dark:hover:bg-emerald-900/50"
+                    ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 cursor-pointer hover:bg-orange-200 dark:hover:bg-orange-900/50"
                     : "bg-muted text-muted-foreground"
               }`}
             >
               <span className={`size-6 flex items-center justify-center rounded-full text-xs font-bold ${
-                i < step ? "bg-emerald-500 text-white" : i === step ? "bg-white/20" : "bg-muted-foreground/20"
+                i < step ? "bg-orange-500 text-white" : i === step ? "bg-white/20" : "bg-muted-foreground/20"
               }`}>
                 {i < step ? <CheckIcon className="size-3" /> : i + 1}
               </span>
               <span className="hidden sm:inline">{s.label}</span>
             </button>
             {i < STEPS.length - 1 && (
-              <div className={`w-12 h-0.5 rounded-full transition-colors ${i < step ? "bg-emerald-400" : "bg-muted"}`} />
+              <div className={`w-12 h-0.5 rounded-full transition-colors ${i < step ? "bg-orange-400" : "bg-muted"}`} />
             )}
           </div>
         ))}
@@ -201,7 +201,7 @@ export default function RegistrarPacientePage() {
         {step === 1 && (
           <div className="space-y-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 text-white">
+              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-red-500 text-white">
                 <CalendarIcon className="size-4" />
               </div>
               <h2 className="font-semibold text-lg">Asignar Cita</h2>
@@ -240,7 +240,7 @@ export default function RegistrarPacientePage() {
         {step === 2 && (
           <div className="space-y-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-violet-400 to-purple-600 text-white">
+              <div className="size-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 text-white">
                 <CheckIcon className="size-4" />
               </div>
               <h2 className="font-semibold text-lg">Confirmar Registro</h2>
@@ -262,8 +262,8 @@ export default function RegistrarPacientePage() {
                 </div>
               </div>
 
-              <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/20 p-4 space-y-2">
-                <h3 className="font-medium text-emerald-700 dark:text-emerald-400 text-sm flex items-center gap-2">
+              <div className="rounded-xl bg-orange-50 dark:bg-orange-950/20 p-4 space-y-2">
+                <h3 className="font-medium text-orange-700 dark:text-orange-400 text-sm flex items-center gap-2">
                   <CalendarIcon className="size-4" /> Cita
                 </h3>
                 <div className="text-sm space-y-1">
@@ -303,7 +303,7 @@ export default function RegistrarPacientePage() {
             <Button
               onClick={handleSubmit}
               disabled={loading}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/20"
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg shadow-orange-500/20"
             >
               <CheckIcon className="size-4 mr-2" />
               {loading ? "Registrando..." : "Confirmar y Registrar"}

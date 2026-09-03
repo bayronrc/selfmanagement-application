@@ -6,9 +6,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { RowActions } from "@/components/row-actions";
 
 const ROL_COLORS: Record<string, string> = {
-  administrador: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400 dark:border-purple-900",
-  invitado: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900",
-  paciente: "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/20 dark:text-sky-400 dark:border-sky-900",
+  administrador: "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900",
+  invitado: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900",
+  paciente: "bg-orange-50 text-orange-600 border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900",
 };
 
 export function getColumns(onRefresh: () => void, onEdit: (row: Usuario) => void): ColumnDef<Usuario>[] {

@@ -63,7 +63,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 shadow-md shadow-blue-900/20">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
-          className="h-8 w-8 text-white hover:bg-white/15 hover:text-white transition-colors"
+          className="h-8 w-8 text-white hover:bg-white/20 hover:text-white transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -72,14 +72,14 @@ export function SiteHeader() {
         </Button>
         <Separator
           orientation="vertical"
-          className="mr-2 data-vertical:h-4 data-vertical:self-auto bg-white/25"
+          className="mr-2 data-vertical:h-4 data-vertical:self-auto bg-white/30 bg-white/25"
         />
         <Breadcrumb>
           <BreadcrumbList className="hidden sm:flex">
             {/* Inicio siempre fijo */}
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/dashboard" className="flex items-center gap-1">
+                <Link href="/dashboard" className="flex items-center gap-1 text-white/90 hover:text-white">
                   <span className="text-sm">🏠</span>
                   <span className="text-blue-50 hover:text-white">Inicio</span>
                 </Link>
@@ -97,11 +97,12 @@ export function SiteHeader() {
               return (
                 <span key={href} className="flex items-center gap-2">
                   <BreadcrumbSeparator>
+                    <Slash className="h-3 w-3 text-white/40" />
                     <Slash className="h-3 w-3 text-blue-200" />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="font-medium text-white">
+                      <BreadcrumbPage className="font-medium text-white text-white">
                         {display}
                       </BreadcrumbPage>
                     ) : (
@@ -142,8 +143,11 @@ export function SiteHeader() {
           />
           <NotificationBell />
           <ThemeToggle />
+          <div className="ml-auto">
+            <ThemeToggle className="text-white hover:text-white" />
+          </div>
         </div>
-      </div>
+        </div>
     </header>
   )
 }

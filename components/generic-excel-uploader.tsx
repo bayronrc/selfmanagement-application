@@ -82,7 +82,7 @@ export function GenericExcelUploader({ uploadEndpoint, entityName }: GenericExce
         </Button>
       )}
       {!loading && filename && errors.length === 0 && (
-        <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
+        <div className="text-sm text-orange-600 dark:text-orange-400 font-medium">
           Archivo cargado correctamente
         </div>
       )}

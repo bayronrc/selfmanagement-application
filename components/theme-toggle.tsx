@@ -3,16 +3,18 @@
 import { useState, useEffect } from "react"
 import { MoonIcon, SunIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
-export function ThemeToggle() {
-  const [dark, setDark] = useState(false)
+export function ThemeToggle({ className }: { className?: string }) {
+  const [dark, setDark] = useState(() => {
+    if (typeof window === "undefined") return false
+    const saved = localStorage.getItem("theme")
+    return saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  })
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme")
-    const isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    setDark(isDark)
-    document.documentElement.classList.toggle("dark", isDark)
-  }, [])
+    document.documentElement.classList.toggle("dark", dark)
+  }, [dark])
 
   function toggle() {
     const next = !dark
@@ -25,7 +27,10 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="size-9 rounded-full text-white hover:bg-white/15 hover:text-white transition-colors"
+      className={cn(
+        "size-9 rounded-full hover:bg-white/20 hover:text-white transition-colors",
+        className
+      )}
       onClick={toggle}
     >
       {dark ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}

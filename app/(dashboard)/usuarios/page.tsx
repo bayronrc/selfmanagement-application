@@ -41,7 +41,7 @@ const ROL_CONFIG: Record<Rol, { label: string; icon: React.ReactNode; color: str
   paciente: {
     label: "Paciente",
     icon: <UserIcon className="size-5" />,
-    color: "from-sky-500 to-blue-600 shadow-sky-500/25",
+    color: "from-orange-400 to-amber-500 shadow-orange-400/25",
     desc: "Acceso a su informacion",
   },
 };
@@ -89,12 +89,15 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  useEffect(() => { setPage(1); }, [debouncedSearch]);
+  const [prevSearch, setPrevSearch] = useState(debouncedSearch);
+  if (prevSearch !== debouncedSearch) {
+    setPrevSearch(debouncedSearch);
+    if (page !== 1) setPage(1);
+  }
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
     try {
-      setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (debouncedSearch) params.set("search", debouncedSearch);
       const response: UsuarioPaginationResponse = await apiFetch(`/users/get-users?${params.toString()}`, { method: "GET" });
@@ -111,65 +114,66 @@ export default function Page() {
     return () => { isMounted = false; };
   }, [page, limit, debouncedSearch, apiFetch]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-indigo-600 shadow-lg shadow-blue-500/20">
-            <UserCogIcon className="size-5 text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-indigo-600 shadow-lg shadow-blue-500/20">
+              <UserCogIcon className="size-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+                Usuarios
+              </h1>
+              <p className="text-sm text-muted-foreground">Gestion de usuarios del sistema</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
-              Usuarios
-            </h1>
-            <p className="text-sm text-muted-foreground">Gestion de usuarios del sistema</p>
-          </div>
+          <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => setShowCreate(true)}>
+            <UserPlusIcon className="size-4 mr-2" />
+            Crear Usuario
+          </Button>
         </div>
-        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowCreate(true)}>
-          <UserPlusIcon className="size-4 mr-2" />
-          Crear Usuario
-        </Button>
+        <DataTableWithActions
+          columns={columns}
+          data={data}
+          loading={loading}
+          page={page}
+          limit={limit}
+          total={total}
+          totalPages={totalPages}
+          search={search}
+          searchPlaceholder="Buscar usuario..."
+          totalLabel="usuarios"
+          onSearchChange={setSearch}
+          onPageChange={setPage}
+          onLimitChange={(l) => { setLimit(l); setPage(1); }}
+          headerExtra={<ExportButton entity="usuarios" search={debouncedSearch} />}
+        />
+        {editRow && (
+          <EditDialog
+            entity="usuarios"
+            itemId={editRow.id!}
+            fields={editRow.rol === "paciente" ? EDIT_FIELDS_PACIENTE : EDIT_FIELDS_ADMIN}
+            initialData={editRow}
+            open={!!editRow}
+            onClose={() => setEditRow(null)}
+            onSaved={cargarDatos}
+          />
+        )}
+        {showCreate && (
+          <CreateUserDialog
+            open={showCreate}
+            onClose={() => setShowCreate(false)}
+            onCreated={() => { setShowCreate(false); cargarDatos(); }}
+            apiFetch={apiFetch}
+          />
+        )}
       </div>
-      <DataTableWithActions
-        columns={columns}
-        data={data}
-        loading={loading}
-        page={page}
-        limit={limit}
-        total={total}
-        totalPages={totalPages}
-        search={search}
-        searchPlaceholder="Buscar usuario..."
-        totalLabel="usuarios"
-        onSearchChange={setSearch}
-        onPageChange={setPage}
-        onLimitChange={(l) => { setLimit(l); setPage(1); }}
-        headerExtra={<ExportButton entity="usuarios" search={debouncedSearch} />}
-      />
-      {editRow && (
-        <EditDialog
-          entity="usuarios"
-          itemId={editRow.id!}
-          fields={editRow.rol === "paciente" ? EDIT_FIELDS_PACIENTE : EDIT_FIELDS_ADMIN}
-          initialData={editRow}
-          open={!!editRow}
-          onClose={() => setEditRow(null)}
-          onSaved={cargarDatos}
-        />
-      )}
-      {showCreate && (
-        <CreateUserDialog
-          open={showCreate}
-          onClose={() => setShowCreate(false)}
-          onCreated={() => { setShowCreate(false); cargarDatos(); }}
-          apiFetch={apiFetch}
-        />
-      )}
-    </div>
   );
 }
 
@@ -354,7 +358,7 @@ function CreateUserDialog({
           {/* Contacto - solo pacientes */}
           {showContact && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+              <div className="flex items-center gap-2 text-sm font-medium text-orange-600 dark:text-orange-400">
                 Contacto
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -410,7 +414,7 @@ function CreateUserDialog({
           {/* Password */}
           {showPassword && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm font-medium text-purple-600 dark:text-purple-400">
+              <div className="flex items-center gap-2 text-sm font-medium text-orange-600 dark:text-orange-400">
                 Contrasena
               </div>
               <div>
