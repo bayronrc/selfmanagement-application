@@ -60,12 +60,10 @@ export function SiteHeader() {
   const isId = (s: string) => /^[a-f0-9-]{8,}$|^\d+$/.test(s) // numérico o UUID
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 shadow-md">
     <header className="sticky top-0 z-50 flex w-full items-center border-b bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 shadow-md shadow-blue-900/20">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
           className="h-8 w-8 text-white hover:bg-white/20 hover:text-white transition-colors"
-          className="h-8 w-8 text-white hover:bg-white/15 hover:text-white transition-colors"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -109,7 +107,6 @@ export function SiteHeader() {
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link href={href} className="text-white/70 hover:text-white transition-colors">
                         <Link href={href} className="text-blue-100 hover:text-white transition-colors">
                           {display}
                         </Link>
@@ -136,10 +133,11 @@ export function SiteHeader() {
           />
           <NotificationBell />
           <ThemeToggle />
-        <div className="ml-auto">
-          <ThemeToggle className="text-white hover:text-white" />
+          <div className="ml-auto">
+            <ThemeToggle className="text-white hover:text-white" />
+          </div>
         </div>
-      </div>
+        </div>
     </header>
   )
 }
