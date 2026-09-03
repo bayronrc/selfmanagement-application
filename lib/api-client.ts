@@ -1,9 +1,10 @@
 import { useAuth } from "@clerk/nextjs";
+import { useCallback } from "react";
 
 export function useApi() {
   const { getToken } = useAuth();
 
-  async function apiFetch(endpoint: string, options?: RequestInit) {
+  const apiFetch = useCallback(async function apiFetch(endpoint: string, options?: RequestInit) {
     const token = await getToken();
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
     const response = await fetch(`${baseUrl}${endpoint}`, {
@@ -24,14 +25,14 @@ export function useApi() {
             ? errorData.detail
             : JSON.stringify(errorData.detail);
         }
-      } catch (_) {
+      } catch {
         // Fallback al status por defecto si no es JSON
       }
       throw new Error(errorMessage);
     }
 
     return await response.json();
-  }
+  }, [getToken]);
 
   return { apiFetch };
 }

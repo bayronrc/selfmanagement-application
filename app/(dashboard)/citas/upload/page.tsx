@@ -3,6 +3,7 @@
 import { GenericExcelUploader } from "@/components/generic-excel-uploader";
 import { TemplateDownloader } from "@/components/template-downloader";
 import { ManualEntryDialog } from "@/components/manual-entry-dialog";
+import { PermissionGuard } from "@/components/permission-guard";
 
 const CITA_FIELDS = [
   { name: "fecha", label: "Fecha", required: true, placeholder: "AAAA-MM-DD" },
@@ -18,15 +19,17 @@ const CITA_FIELDS = [
 
 export default function UploadCitasPage() {
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Cargar Citas</h1>
-        <div className="flex gap-2">
-          <TemplateDownloader entity="citas" />
-          <ManualEntryDialog entity="citas" fields={CITA_FIELDS} onCreated={() => window.location.reload()} />
+    <PermissionGuard permission="org:citas:read">
+      <div className="p-6 max-w-2xl mx-auto">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">Cargar Citas</h1>
+          <div className="flex gap-2">
+            <TemplateDownloader entity="citas" />
+            <ManualEntryDialog entity="citas" fields={CITA_FIELDS} onCreated={() => window.location.reload()} />
+          </div>
         </div>
+        <GenericExcelUploader uploadEndpoint="/appointments/upload-batch" entityName="citas" />
       </div>
-      <GenericExcelUploader uploadEndpoint="/appointments/upload-batch" entityName="citas" />
-    </div>
+    </PermissionGuard>
   )
 }

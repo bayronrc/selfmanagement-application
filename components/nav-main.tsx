@@ -51,16 +51,16 @@ export function NavMain({
                 className={cn(
                   "rounded-xl transition-all duration-200",
                   item.isActive
-                    ? "bg-gradient-to-r from-emerald-50 to-teal-50/50 dark:from-emerald-950/20 dark:to-teal-950/10 text-emerald-700 dark:text-emerald-300 font-medium border-l-4 border-emerald-500 shadow-sm shadow-emerald-500/10"
-                    : "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50/50 dark:hover:from-emerald-950/20 dark:hover:to-teal-950/10 hover:text-emerald-700 dark:hover:text-emerald-300"
+                    ? "bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-orange-700 dark:text-orange-400 font-semibold border-l-3 border-orange-500"
+                    : "hover:bg-accent/80"
                 )}
               >
                 <Link href={item.url}>
                   <div className={cn(
                     "flex size-9 items-center justify-center rounded-lg transition-all duration-200",
                     item.isActive
-                      ? "bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/25"
-                      : "bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40"
+                      ? "bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20"
+                      : "bg-muted/50 text-orange-600 dark:text-orange-400"
                   )}>
                     {renderIcon(item.icon)}
                   </div>

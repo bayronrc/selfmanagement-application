@@ -49,12 +49,16 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  useEffect(() => { setPage(1); }, [debouncedSearch, filter]);
+  const [prevFilterKey, setPrevFilterKey] = useState("");
+  const filterKey = `${debouncedSearch}::${filter}`;
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
+    if (page !== 1) setPage(1);
+  }
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
     try {
-      setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (debouncedSearch) params.set("search", debouncedSearch);
       if (filter) params.set("estado", filter);
@@ -70,8 +74,9 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch, filter]);
+  }, [page, limit, debouncedSearch, filter, apiFetch]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));
@@ -80,18 +85,18 @@ export default function Page() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/20">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-800 shadow-lg shadow-blue-600/20">
             <CalendarIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
               Citas
             </h1>
             <p className="text-sm text-muted-foreground">Gestion de citas medicas</p>
           </div>
         </div>
         <Link href="/citas/registrar">
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
             <CalendarPlusIcon className="size-4 mr-2" />
             Registrar Cita
           </Button>
@@ -105,7 +110,7 @@ export default function Page() {
             onClick={() => setFilter(tab.value)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
               filter === tab.value
-                ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/20"
+                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md shadow-orange-500/20"
                 : "bg-muted text-muted-foreground hover:bg-muted/80"
             }`}
           >

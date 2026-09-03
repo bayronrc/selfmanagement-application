@@ -38,7 +38,11 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  useEffect(() => { setPage(1); }, [debouncedSearch]);
+  const [prevSearch, setPrevSearch] = useState(debouncedSearch);
+  if (prevSearch !== debouncedSearch) {
+    setPrevSearch(debouncedSearch);
+    if (page !== 1) setPage(1);
+  }
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
@@ -58,8 +62,9 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch]);
+  }, [page, limit, debouncedSearch, apiFetch]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));

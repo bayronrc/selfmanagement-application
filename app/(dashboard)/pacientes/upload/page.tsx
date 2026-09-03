@@ -3,6 +3,7 @@
 import { GenericExcelUploader } from "@/components/generic-excel-uploader";
 import { TemplateDownloader } from "@/components/template-downloader";
 import { ManualEntryDialog } from "@/components/manual-entry-dialog";
+import { PermissionGuard } from "@/components/permission-guard";
 
 const PACIENTE_FIELDS = [
   { name: "documento", label: "Documento", required: true, placeholder: "Solo numeros", type: "numeric" as const },
@@ -17,15 +18,17 @@ const PACIENTE_FIELDS = [
 
 export default function UploadPacientesPage() {
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Cargar Pacientes</h1>
-        <div className="flex gap-2">
-          <TemplateDownloader entity="pacientes" />
-          <ManualEntryDialog entity="pacientes" fields={PACIENTE_FIELDS} onCreated={() => window.location.reload()} />
+    <PermissionGuard permission="org:pacientes:read">
+      <div className="p-6 max-w-2xl mx-auto">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">Cargar Pacientes</h1>
+          <div className="flex gap-2">
+            <TemplateDownloader entity="pacientes" />
+            <ManualEntryDialog entity="pacientes" fields={PACIENTE_FIELDS} onCreated={() => window.location.reload()} />
+          </div>
         </div>
+        <GenericExcelUploader uploadEndpoint="/patients/upload-batch" entityName="pacientes" />
       </div>
-      <GenericExcelUploader uploadEndpoint="/patients/upload-batch" entityName="pacientes" />
-    </div>
+    </PermissionGuard>
   )
 }
