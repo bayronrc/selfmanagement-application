@@ -10,7 +10,6 @@ import {
 import { useUser } from "@clerk/nextjs"
 import {
   CalendarIcon,
-  ClipboardListIcon,
   HeartPulseIcon,
   UserCogIcon,
   ClipboardListIcon,

@@ -9,6 +9,7 @@ import {
   ClipboardListIcon,
   ActivityIcon,
   TrendingUpIcon,
+  UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -51,7 +52,6 @@ export default function Page() {
     cargarStats();
     return () => { isMounted = false; };
   }, [isLoaded, orgId, userId, apiFetch]);
-  }, [apiFetch]);
 
   const statCards = [
     {
