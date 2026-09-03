@@ -41,6 +41,7 @@ export default function RootLayout({
             }}
           />
         </head>
+        algo cambio
         <body className="min-h-full flex flex-col">
           <TooltipProvider>
             {children}
