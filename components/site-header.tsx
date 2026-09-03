@@ -126,7 +126,6 @@ export function SiteHeader() {
                 </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <span className="text-lg">🏠</span>
           </div>
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-3">
