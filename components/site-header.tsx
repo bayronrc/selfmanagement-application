@@ -142,7 +142,6 @@ export function SiteHeader() {
             }}
           />
           <NotificationBell />
-          <ThemeToggle />
           <div className="ml-auto">
             <ThemeToggle className="text-white hover:text-white" />
           </div>
