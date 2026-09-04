@@ -13,6 +13,7 @@ import {
   HeartPulseIcon,
   UserCogIcon,
   ClipboardListIcon,
+  FileSpreadsheetIcon,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -40,6 +41,15 @@ const data = {
       icon: <ClipboardListIcon />,
       items: [
         { title: "Cargar Ordenes", url: "/ordenes/upload" }
+      ]
+    },
+    {
+      title: "RIPS",
+      url: "/rips",
+      icon: <FileSpreadsheetIcon />,
+      items: [
+        { title: "Cargar RES 0948", url: "/rips/res-0948" },
+        { title: "Cargar RES 3344", url: "/rips/res-3344" }
       ]
     },
     {

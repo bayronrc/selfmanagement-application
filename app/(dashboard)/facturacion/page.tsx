@@ -64,7 +64,7 @@ export default function Page() {
     return () => { isMounted = false; };
   }, [page, limit, debouncedSearch, apiFetch]);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));

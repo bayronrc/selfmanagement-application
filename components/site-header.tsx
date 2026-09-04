@@ -32,6 +32,7 @@ const routeIcons: Record<string, string> = {
   admin: '🛡️',
   users: '👥',
   reports: '📊',
+  rips: '📑',
 }
 
 const routeLabels: Record<string, string> = {
@@ -48,6 +49,7 @@ const routeLabels: Record<string, string> = {
   admin: 'Administración',
   users: 'Usuarios',
   reports: 'Reportes',
+  rips: 'RIPS',
 }
 
 export function SiteHeader() {

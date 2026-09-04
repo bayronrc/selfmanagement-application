@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   CalendarIcon,
   ClipboardListIcon,
-  ActivityIcon,
   TrendingUpIcon,
   UsersIcon,
 } from "lucide-react";
