@@ -4,7 +4,7 @@ export async function apiFetch(endpoint:string,options?:RequestInit) {
   const {getToken} = await auth();
   const token = await getToken()
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
     ...options,
     headers: {
       Authorization: `Bearer ${token}`,

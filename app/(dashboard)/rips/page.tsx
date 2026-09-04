@@ -1,7 +1,7 @@
 "use client"
 
 import { useApi } from "@/lib/api-client";
-import { NotaRips, NotaRipsPaginationResponse } from "@/types/rips";
+import { NotaRips } from "@/types/rips";
 import { useCallback, useEffect, useState } from "react";
 import { getColumns } from "./partials/columns";
 import { DataTableWithActions } from "@/components/data-table-with-actions";
@@ -36,7 +36,11 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  useEffect(() => { setPage(1); }, [debouncedSearch]);
+  const [prevSearch, setPrevSearch] = useState(debouncedSearch);
+  if (prevSearch !== debouncedSearch) {
+    setPrevSearch(debouncedSearch);
+    if (page !== 1) setPage(1);
+  }
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
@@ -57,8 +61,9 @@ export default function Page() {
       if (isMounted) setLoading(false);
     }
     return () => { isMounted = false; };
-  }, [page, limit, debouncedSearch]);
+  }, [page, limit, debouncedSearch, apiFetch]);
 
+   
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns(cargarDatos, (row) => setEditRow(row));
