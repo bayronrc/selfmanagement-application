@@ -36,11 +36,9 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  const [prevSearch, setPrevSearch] = useState(debouncedSearch);
-  if (prevSearch !== debouncedSearch) {
-    setPrevSearch(debouncedSearch);
-    if (page !== 1) setPage(1);
-  }
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
 
   const cargarDatos = useCallback(async () => {
     let isMounted = true;
