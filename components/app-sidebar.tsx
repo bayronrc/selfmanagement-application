@@ -48,7 +48,6 @@ const data = {
       url: "/rips",
       icon: <FileSpreadsheetIcon />,
       items: [
-        { title: "Realizar Carga", url: "/rips/realizar" },
         { title: "Tipo de rips", url: "/rips/tipo-rips" }
       ]
     },

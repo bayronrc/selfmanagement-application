@@ -50,7 +50,6 @@ const routeLabels: Record<string, string> = {
   users: 'Usuarios',
   reports: 'Reportes',
   rips: 'Cargas / Rip',
-  realizar: 'Realizar RIPS',
   'tipo-rips': 'Tipo de RIPS',
 }
 
