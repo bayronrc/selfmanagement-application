@@ -49,7 +49,9 @@ const routeLabels: Record<string, string> = {
   admin: 'Administración',
   users: 'Usuarios',
   reports: 'Reportes',
-  rips: 'RIPS',
+  rips: 'Cargas / Rip',
+  realizar: 'Realizar RIPS',
+  historial: 'Historial de Cargas',
 }
 
 export function SiteHeader() {

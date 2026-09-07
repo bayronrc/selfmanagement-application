@@ -44,12 +44,12 @@ const data = {
       ]
     },
     {
-      title: "RIPS",
+      title: "Cargas / RIPS",
       url: "/rips",
       icon: <FileSpreadsheetIcon />,
       items: [
-        { title: "Cargar RES 0948", url: "/rips/res-0948" },
-        { title: "Cargar RES 3344", url: "/rips/res-3344" }
+        { title: "Realizar Carga", url: "/rips/realizar" },
+        { title: "Historial de Cargas", url: "/rips/historial" }
       ]
     },
     {
