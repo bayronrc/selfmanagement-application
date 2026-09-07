@@ -6,6 +6,9 @@ export interface NotaRips {
   tipoNota: string | null;               // T03 - Tipo de nota: débito, crédito o ajuste
   numNota: string | null;                // T04 - Número de la nota
   observaciones: string | null;
+  cargado_por: string | null;            // Persona que realizó la carga
+  created_at: string | null;             // Fecha en que se subió el registro
+  updated_at: string | null;             // Fecha de última modificación
 }
 
 export interface NotaRipsPaginationResponse {
