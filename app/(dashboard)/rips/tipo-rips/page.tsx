@@ -10,17 +10,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RipsUploadPage } from "@/components/rips-upload-page";
 
 type TipoRips = "res-0948" | "res-3344"
 
-const TIPOS_RIPS: Record<TipoRips, { label: string; descripcion: string }> = {
+const TIPOS_RIPS: Record<TipoRips, { label: string; descripcion: string; endpoint: string }> = {
   "res-0948": {
     label: "RES 0948",
     descripcion: "Resolución 0948 - Registro de prestadores de servicios y habilitación de servicios de salud",
+    endpoint: "/rips/upload-res0948",
   },
   "res-3344": {
     label: "RES 3344",
     descripcion: "Resolución 3344 - Modelo de reporte de costos de prestación de servicios de salud",
+    endpoint: "/rips/upload-res3344",
   },
 }
 
@@ -28,7 +31,7 @@ export default function TipoRipsPage() {
   const [tipo, setTipo] = useState<TipoRips | "">("")
 
   return (
-    <div className="p-6 mx-auto max-w-4xl space-y-6 pt-2">
+    <div className="p-6 mx-auto max-w-5xl space-y-6 pt-2">
       {/* Encabezado */}
       <div className="flex items-start gap-4 rounded-2xl bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 p-5 text-white shadow-lg shadow-blue-900/20">
         <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 backdrop-blur ring-1 ring-white/25">
@@ -73,6 +76,21 @@ export default function TipoRipsPage() {
           )}
         </div>
       </div>
+
+      {/* Contenido de carga según la resolución seleccionada */}
+      {tipo && (
+        <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm dark:border-blue-900/60 dark:bg-blue-950/40">
+          <div className="mb-2">
+            <h2 className="text-lg font-bold text-blue-950 dark:text-blue-50">
+              Cargar Archivo / {TIPOS_RIPS[tipo].label}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {TIPOS_RIPS[tipo].descripcion}
+            </p>
+          </div>
+          <RipsUploadPage uploadEndpoint={TIPOS_RIPS[tipo].endpoint} />
+        </div>
+      )}
     </div>
   )
 }
