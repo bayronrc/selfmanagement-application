@@ -49,7 +49,7 @@ const data = {
       icon: <FileSpreadsheetIcon />,
       items: [
         { title: "Realizar Carga", url: "/rips/realizar" },
-        { title: "Historial de Cargas", url: "/rips/historial" }
+        { title: "Tipo de rips", url: "/rips/tipo-rips" }
       ]
     },
     {
