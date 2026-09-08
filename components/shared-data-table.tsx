@@ -1,4 +1,5 @@
 "use client"
+"use no memo"
 
 import {
   ColumnDef,
@@ -52,6 +53,7 @@ export function SharedDataTable<TData, TValue>({
   onSearchChange
 }: SharedDataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = useState("")
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
