@@ -59,7 +59,7 @@ export default function Page() {
     }
     cargarStats();
     return () => { isMounted = false; };
-  }, []);
+  }, [apiFetch]);
 
   const citasCompletadas = stats.citas - stats.citas_pendientes;
   const tasaCompletado = stats.citas > 0 ? Math.round((citasCompletadas / stats.citas) * 100) : 0;

@@ -20,7 +20,7 @@ export function getColumns(onRefresh: () => void, onEdit: (row: Paciente) => voi
       header: "Estado",
       cell: ({ row }) => {
         const v = row.getValue("estado")
-        if (v === "activo") return <Badge variant="outline" className="capitalize bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900">Activo</Badge>
+        if (v === "activo") return <Badge variant="outline" className="capitalize bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/20 dark:text-orange-400 dark:border-orange-900">Activo</Badge>
         if (v === "inactivo") return <Badge variant="destructive" className="capitalize">Inactivo</Badge>
         return <Badge variant="outline" className="capitalize">{String(v ?? "N/A")}</Badge>
       }

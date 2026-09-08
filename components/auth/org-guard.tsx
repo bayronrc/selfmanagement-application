@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth, OrganizationList } from "@clerk/nextjs";
-import { Building2Icon, ShieldAlertIcon } from "lucide-react";
+import { Building2Icon } from "lucide-react";
 import React from "react";
 
 interface OrgGuardProps {

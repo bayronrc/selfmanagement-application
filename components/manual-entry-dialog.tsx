@@ -32,8 +32,8 @@ interface ManualEntryDialogProps {
 
 const SECTION_CONFIG: Record<string, { icon: React.ReactNode; color: string }> = {
   "Datos Personales": { icon: <UserIcon className="size-4" />, color: "text-blue-600 dark:text-blue-400" },
-  "Contacto": { icon: <MapPinIcon className="size-4" />, color: "text-emerald-600 dark:text-emerald-400" },
-  "Detalles": { icon: <StethoscopeIcon className="size-4" />, color: "text-purple-600 dark:text-purple-400" },
+  "Contacto": { icon: <MapPinIcon className="size-4" />, color: "text-orange-600 dark:text-orange-400" },
+  "Detalles": { icon: <StethoscopeIcon className="size-4" />, color: "text-orange-600 dark:text-orange-400" },
 }
 
 function groupBySection(fields: Field[]) {
@@ -94,7 +94,7 @@ export function ManualEntryDialog({ entity, fields, onCreated }: ManualEntryDial
 
   if (!open) {
     return (
-      <Button size="sm" onClick={() => setOpen(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+      <Button size="sm" onClick={() => setOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
         <PlusIcon className="size-4 mr-2" />
         Crear Registro
       </Button>
@@ -106,7 +106,7 @@ export function ManualEntryDialog({ entity, fields, onCreated }: ManualEntryDial
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-background rounded-xl border shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 z-10 bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-4 rounded-t-xl flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-t-xl flex items-center justify-between">
           <div className="flex items-center gap-2">
             <PlusIcon className="size-5" />
             <h2 className="text-lg font-semibold">Crear Registro</h2>
@@ -202,7 +202,7 @@ export function ManualEntryDialog({ entity, fields, onCreated }: ManualEntryDial
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={loading} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button type="submit" disabled={loading} className="bg-orange-500 hover:bg-orange-600 text-white">
               <SaveIcon className="size-4 mr-2" />
               {loading ? "Guardando..." : "Guardar"}
             </Button>

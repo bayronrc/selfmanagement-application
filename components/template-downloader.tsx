@@ -13,6 +13,7 @@ const ENTITY_LABELS: Record<string, string> = {
   profesionales: "Profesionales",
   servicios: "Servicios",
   ordenes: "Ordenes",
+  rips: "RIPS",
 }
 
 export function TemplateDownloader({ entity }: TemplateDownloaderProps) {

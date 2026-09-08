@@ -33,7 +33,6 @@ function RegistrarCitaContent() {
 
   useEffect(() => {
     if (!noFactura) return
-    setLoadingFactura(true)
     apiFetch(`/billing/get-billing/${encodeURIComponent(noFactura)}`, { method: "GET" })
       .then((data) => {
         setForm((prev) => ({
@@ -49,7 +48,7 @@ function RegistrarCitaContent() {
       .finally(() => {
         setLoadingFactura(false)
       })
-  }, [noFactura])
+  }, [noFactura, apiFetch])
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -86,11 +85,11 @@ function RegistrarCitaContent() {
           </Button>
         </Link>
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/20">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-800 shadow-lg shadow-blue-600/20">
             <CalendarIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
               Registrar Cita
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -101,7 +100,7 @@ function RegistrarCitaContent() {
       </div>
 
       {noFactura && (
-        <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
+        <div className="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-4 py-2.5 text-sm text-orange-700 dark:border-orange-800 dark:bg-orange-950/30 dark:text-orange-400">
           <BadgeCheckIcon className="size-4" />
           Vinculada a la factura <span className="font-semibold">{noFactura}</span>
         </div>
@@ -110,7 +109,7 @@ function RegistrarCitaContent() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Fecha y Hora */}
         <div className="rounded-xl border bg-card p-5 space-y-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+          <div className="flex items-center gap-2 text-sm font-medium text-orange-600 dark:text-orange-400">
             <ClockIcon className="size-4" />
             Fecha y Hora
           </div>
@@ -159,7 +158,7 @@ function RegistrarCitaContent() {
 
         {/* Profesional */}
         <div className="rounded-xl border bg-card p-5 space-y-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-violet-600 dark:text-violet-400">
+          <div className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400">
             <StethoscopeIcon className="size-4" />
             Profesional
           </div>
@@ -177,7 +176,7 @@ function RegistrarCitaContent() {
 
         {/* Detalles */}
         <div className="rounded-xl border bg-card p-5 space-y-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="flex items-center gap-2 text-sm font-medium text-orange-600 dark:text-orange-400">
             Detalles de la Cita
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -207,7 +206,7 @@ function RegistrarCitaContent() {
           <Button
             type="submit"
             disabled={!isValid || loading}
-            className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/20 gap-2"
+            className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg shadow-orange-500/20 gap-2"
           >
             <SaveIcon className="size-4" />
             {loading ? "Guardando..." : "Guardar Cita"}

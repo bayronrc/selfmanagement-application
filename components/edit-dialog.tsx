@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
 import { XIcon, PencilIcon, UserIcon, MapPinIcon, StethoscopeIcon, SaveIcon } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -35,8 +35,8 @@ interface EditDialogProps {
 
 const SECTION_CONFIG: Record<string, { icon: React.ReactNode; color: string }> = {
   "Datos Personales": { icon: <UserIcon className="size-4" />, color: "text-blue-600 dark:text-blue-400" },
-  "Contacto": { icon: <MapPinIcon className="size-4" />, color: "text-emerald-600 dark:text-emerald-400" },
-  "Detalles": { icon: <StethoscopeIcon className="size-4" />, color: "text-purple-600 dark:text-purple-400" },
+  "Contacto": { icon: <MapPinIcon className="size-4" />, color: "text-orange-600 dark:text-orange-400" },
+  "Detalles": { icon: <StethoscopeIcon className="size-4" />, color: "text-orange-600 dark:text-orange-400" },
 }
 
 function groupBySection(fields: Field[]) {
@@ -58,25 +58,25 @@ export function EditDialog({ entity, itemId, fields, initialData, open, onClose,
   const { apiFetch } = useApi()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState<Record<string, string>>({})
+  const [prevData, setPrevData] = useState<Record<string, unknown> | object>(initialData)
 
-  useEffect(() => {
-    if (open) {
-      const d = initialData as Record<string, unknown>
-      const initial: Record<string, string> = {}
-      fields.forEach((f) => {
-        if (f.type === "address") {
-          const val = String(d[f.name] ?? "")
-          const parts = val.split(",").map(s => s.trim())
-          initial[f.name + "_calle"] = parts[0] ?? ""
-          initial[f.name + "_numero"] = parts[1] ?? ""
-          initial[f.name + "_carrera"] = parts[2] ?? ""
-        } else {
-          initial[f.name] = String(d[f.name] ?? "")
-        }
-      })
-      setForm(initial)
-    }
-  }, [open, initialData, fields])
+  if (open && prevData !== initialData) {
+    setPrevData(initialData)
+    const d = initialData as Record<string, unknown>
+    const initial: Record<string, string> = {}
+    fields.forEach((f) => {
+      if (f.type === "address") {
+        const val = String(d[f.name] ?? "")
+        const parts = val.split(",").map(s => s.trim())
+        initial[f.name + "_calle"] = parts[0] ?? ""
+        initial[f.name + "_numero"] = parts[1] ?? ""
+        initial[f.name + "_carrera"] = parts[2] ?? ""
+      } else {
+        initial[f.name] = String(d[f.name] ?? "")
+      }
+    })
+    setForm(initial)
+  }
 
   function handleChange(name: string, value: string) {
     setForm((prev) => ({ ...prev, [name]: value }))

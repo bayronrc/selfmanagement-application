@@ -48,7 +48,7 @@ export function ExcelUploader() {
     const formattedRows = dataRows
       .filter(row => row.length > 0 && row[0] !== undefined) // Filtra filas vacías
       .map(row => {
-        const rowObject: Record<string, any> = {}
+        const rowObject: Record<string, unknown> = {}
         headers.forEach((header, index) => {
           rowObject[header] = row[index] ?? ""
         })
@@ -66,7 +66,7 @@ export function ExcelUploader() {
       toast.success("Archivo cargado correctamente", {
         description: `${formattedRows.length} órdenes procesadas correctamente`
       })
-    } catch (error) {
+    } catch {
       toast.error("Error al cargar el archivo", {
         description: "Intenta de nuevo o contacta a soporte"
       })

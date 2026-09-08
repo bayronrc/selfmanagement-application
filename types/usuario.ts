@@ -1,3 +1,5 @@
+export type RolUsuario = "admin" | "medico" | "recepcionista" | "paciente";
+
 export interface Usuario {
   id: number | null;
   documento: string | null;
@@ -9,7 +11,8 @@ export interface Usuario {
   email: string | null;
   direccion: string | null;
   password: string | null;
-  rol: string | null;
+  rol: RolUsuario | string | null;
+  permisos?: string[] | string | null;
   estado: string | null;
 }
 
