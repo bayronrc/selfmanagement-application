@@ -1,4 +1,5 @@
 "use client"
+"use no memo"
 
 import {
   ColumnDef,
@@ -55,6 +56,7 @@ export function DataTableWithActions<TData, TValue>({
   headerExtra,
 }: DataTableWithActionsProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = useState("")
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
