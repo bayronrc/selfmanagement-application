@@ -1,30 +1,32 @@
 "use client"
 
-import { useApi } from "@/lib/api-client";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
-import * as XLSX from "xlsx";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useApi } from "@/lib/api-client";
+import { inspectRipsFile, RIPS_ACCEPTED_EXTENSIONS, validateRipsFile } from "@/lib/validations/rips-upload";
+import type { RipsUploadResult } from "@/types/rips";
 import {
+  AlertCircleIcon,
+  CheckCircleIcon,
   FileSpreadsheetIcon,
-  UploadIcon,
-  PlayIcon,
-  Trash2Icon,
+  FileTextIcon,
   LightbulbIcon,
   Loader2Icon,
-  FileTextIcon,
-  CheckCircleIcon,
-  AlertCircleIcon,
+  PlayIcon,
+  Trash2Icon,
+  UploadIcon,
   XIcon,
 } from "lucide-react";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 interface RipsUploadPageProps {
   uploadEndpoint: string
+  resolution: "res-0948" | "res-3344"
 }
 
 const MAX_SIZE_BYTES = 10 * 1024 * 1024 // 10 MB
-const ACCEPTED_EXTENSIONS = [".xlsx", ".xls"]
 const TAMANO_MAXIMO_MB = (MAX_SIZE_BYTES / (1024 * 1024)).toFixed(0)
 
 type EstadoProceso = "pendiente" | "validando" | "procesado" | "error"
@@ -62,39 +64,28 @@ function EstadoIndicator({ estado }: { estado: EstadoProceso }) {
   )
 }
 
-export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
+export function RipsUploadPage({ uploadEndpoint, resolution }: RipsUploadPageProps) {
   const { apiFetch } = useApi()
   const [file, setFile] = useState<File | null>(null)
   const [dragActive, setDragActive] = useState(false)
   const [tipoProceso, setTipoProceso] = useState<TipoProceso>("Cargue")
   const [totalRegistros, setTotalRegistros] = useState<number | null>(null)
   const [estado, setEstado] = useState<EstadoProceso>("pendiente")
-  const [resultado, setResultado] = useState<{ ok: number; errores: number } | null>(null)
+  const [resultado, setResultado] = useState<RipsUploadResult | null>(null)
   const [procesado, setProcesado] = useState(false)
 
   const inputId = `rips-upload-input-${uploadEndpoint.replace(/[^a-z0-9]/gi, "")}`
 
-  useEffect(() => {
-    if (!file) return
-    setEstado("pendiente")
-  }, [file])
-
   function validarArchivo(f: File): string | null {
-    const ext = getExtension(f.name)
-    if (!ACCEPTED_EXTENSIONS.includes(ext)) {
-      return `Formato no permitido. Solo se aceptan archivos ${ACCEPTED_EXTENSIONS.join(" o ")}`
-    }
-    if (f.size > MAX_SIZE_BYTES) {
-      return `El archivo supera el tamaño máximo de ${TAMANO_MAXIMO_MB} MB`
-    }
-    return null
+    return validateRipsFile(f)
   }
 
   async function leerRegistros(f: File): Promise<Record<string, unknown>[]> {
     const buffer = await f.arrayBuffer()
     const workbook = XLSX.read(buffer)
+    if (workbook.SheetNames.length === 0) throw new Error("El Excel no contiene hojas")
     const sheet = workbook.Sheets[workbook.SheetNames[0]]
-    return XLSX.utils.sheet_to_json(sheet) as Record<string, unknown>[]
+    return XLSX.utils.sheet_to_json(sheet, { defval: "", raw: false }) as Record<string, unknown>[]
   }
 
   async function handleFile(f: File | undefined | null) {
@@ -111,6 +102,19 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
     setProcesado(false)
 
     try {
+      const inspection = await inspectRipsFile(f)
+      if (inspection.issues.length > 0) {
+        setEstado("error")
+        setResultado({ ok: 0, errores: inspection.issues.length, issues: inspection.issues })
+        toast.error("El archivo no superó la inspección preliminar")
+        return
+      }
+
+      if (inspection.extension === ".zip") {
+        setTotalRegistros(null)
+        return
+      }
+
       const registros = await leerRegistros(f)
       setTotalRegistros(registros.length)
     } catch {
@@ -139,28 +143,54 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
     setProcesado(false)
 
     try {
-      const registros = await leerRegistros(file)
-      setTotalRegistros(registros.length)
+      const inspection = await inspectRipsFile(file)
+      if (inspection.issues.length > 0) {
+        setEstado("error")
+        setResultado({ ok: 0, errores: inspection.issues.length, issues: inspection.issues })
+        toast.error("El archivo no superó la inspección preliminar")
+        return
+      }
 
-      try {
-        await apiFetch(uploadEndpoint, {
+      let response: RipsUploadResult
+      if (inspection.extension === ".zip") {
+        const formData = new FormData()
+        formData.append("file", file, file.name)
+        formData.append("filename", file.name)
+        formData.append("process", tipoProceso)
+        formData.append("resolution", resolution)
+        response = await apiFetch(uploadEndpoint, { method: "POST", body: formData }) as RipsUploadResult
+      } else {
+        const registros = await leerRegistros(file)
+        setTotalRegistros(registros.length)
+        response = await apiFetch(uploadEndpoint, {
           method: "POST",
-          body: JSON.stringify({ filename: file.name, process: tipoProceso, rows: registros })
-        })
-      } catch (e) {
-        console.error("Error al enviar al servidor: ", e)
+          body: JSON.stringify({ filename: file.name, process: tipoProceso, resolution, rows: registros })
+        }) as RipsUploadResult
+      }
+
+      const normalizedResult: RipsUploadResult = {
+        ok: Number(response?.ok ?? 0),
+        errores: Number(response?.errores ?? 0),
+        advertencias: Number(response?.advertencias ?? 0),
+        issues: response?.issues ?? [],
+      }
+      setResultado(normalizedResult)
+      if (normalizedResult.errores > 0) {
+        setEstado("error")
+        toast.error("La validación encontró errores", { description: "Revisa el detalle del resultado" })
+        return
       }
 
       setEstado("procesado")
       setProcesado(true)
-      setResultado({ ok: registros.length, errores: 0 })
       toast.success("Carga procesada correctamente", {
-        description: `${registros.length} registros procesados`
+        description: `${normalizedResult.ok} registros procesados`
       })
-    } catch {
+    } catch (error) {
       setEstado("error")
-      toast.error("Error al leer el archivo", {
-        description: "Verifica que el archivo sea un Excel valido"
+      const message = error instanceof Error ? error.message : "No se pudo completar la carga"
+      toast.error("No se pudo procesar el archivo", {
+        description: message
       })
     }
   }
@@ -213,16 +243,15 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
                 setDragActive(false)
                 handleFile(e.dataTransfer.files?.[0])
               }}
-              className={`flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed p-8 text-center transition-all cursor-pointer ${
-                dragActive
-                  ? "border-blue-400 bg-blue-50 dark:border-sky-400 dark:bg-blue-900/30"
-                  : "border-blue-200 hover:border-blue-400 hover:bg-blue-50/60 dark:border-blue-800 dark:hover:border-sky-400 dark:hover:bg-blue-900/20"
-              }`}
+              className={`flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed p-8 text-center transition-all cursor-pointer ${dragActive
+                ? "border-blue-400 bg-blue-50 dark:border-sky-400 dark:bg-blue-900/30"
+                : "border-blue-200 hover:border-blue-400 hover:bg-blue-50/60 dark:border-blue-800 dark:hover:border-sky-400 dark:hover:bg-blue-900/20"
+                }`}
             >
               <input
                 id={inputId}
                 type="file"
-                accept=".xlsx,.xls"
+                accept={RIPS_ACCEPTED_EXTENSIONS.join(",")}
                 className="hidden"
                 onChange={(e) => handleFile(e.target.files?.[0])}
               />
@@ -248,8 +277,9 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
                 Seleccionar archivo
               </Button>
               <p className="text-xs text-muted-foreground">
-                Formatos permitidos: <span className="font-medium text-blue-700 dark:text-sky-300">.xlsx</span> y{" "}
-                <span className="font-medium text-blue-700 dark:text-sky-300">.xls</span> · Tamaño máximo: {TAMANO_MAXIMO_MB} MB
+                Formatos permitidos: <span className="font-medium text-blue-700 dark:text-sky-300">.xlsx</span>,{" "}
+                <span className="font-medium text-blue-700 dark:text-sky-300">.xls</span> y{" "}
+                <span className="font-medium text-blue-700 dark:text-sky-300">.zip</span> · Tamaño máximo: {TAMANO_MAXIMO_MB} MB
               </p>
             </div>
           ) : (
@@ -329,11 +359,10 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
                         key={tipo}
                         type="button"
                         onClick={() => setTipoProceso(tipo)}
-                        className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
-                          tipoProceso === tipo
-                            ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md shadow-blue-500/25"
-                            : "text-muted-foreground hover:text-blue-700 dark:hover:text-sky-300"
-                        }`}
+                        className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${tipoProceso === tipo
+                          ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md shadow-blue-500/25"
+                          : "text-muted-foreground hover:text-blue-700 dark:hover:text-sky-300"
+                          }`}
                       >
                         {tipo}
                       </button>
@@ -401,6 +430,21 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
               <p className="mt-2 text-3xl font-bold tabular-nums text-red-700 dark:text-red-300">{resultado.errores}</p>
             </div>
           </div>
+          {resultado.issues && resultado.issues.length > 0 && (
+            <div className="mt-4 space-y-2 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900/60 dark:bg-red-950/30">
+              <p className="text-sm font-semibold text-red-800 dark:text-red-200">Detalle de validación</p>
+              <ul className="max-h-60 space-y-2 overflow-y-auto text-sm text-red-700 dark:text-red-300">
+                {resultado.issues.map((issue, index) => (
+                  <li key={`${issue.code}-${issue.fileName ?? "archivo"}-${issue.row ?? index}`}>
+                    <span className="font-semibold">{issue.code}</span>: {issue.message}
+                    {issue.fileName && <span> · Archivo: {issue.fileName}</span>}
+                    {issue.row && <span> · Fila: {issue.row}</span>}
+                    {issue.field && <span> · Campo: {issue.field}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
@@ -413,7 +457,7 @@ export function RipsUploadPage({ uploadEndpoint }: RipsUploadPageProps) {
           <div>
             <h2 className="text-sm font-bold text-amber-900 dark:text-amber-300">Ten en cuenta</h2>
             <ul className="mt-1.5 list-disc pl-4 text-sm text-amber-800/80 dark:text-amber-200/80 space-y-1">
-              <li>El archivo debe estar en formato Excel (<span className="font-medium">.xlsx</span> o <span className="font-medium">.xls</span>).</li>
+              <li>El archivo debe estar en formato Excel (<span className="font-medium">.xlsx</span> o <span className="font-medium">.xls</span>) o en paquete <span className="font-medium">.zip</span>.</li>
               <li>No debe superar el tamaño máximo permitido de {TAMANO_MAXIMO_MB} MB.</li>
               <li>Si el archivo contiene errores, el sistema generará un reporte con los detalles necesarios para corregirlos.</li>
             </ul>

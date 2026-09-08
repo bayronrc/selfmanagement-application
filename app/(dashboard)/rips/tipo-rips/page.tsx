@@ -1,7 +1,6 @@
 "use client"
 
-import { FileSpreadsheetIcon, TagsIcon } from "lucide-react";
-import { useState } from "react";
+import { RipsUploadPage } from "@/components/rips-upload-page";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -10,7 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RipsUploadPage } from "@/components/rips-upload-page";
+import { FileSpreadsheetIcon, TagsIcon } from "lucide-react";
+import { useState } from "react";
 
 type TipoRips = "res-0948" | "res-3344"
 
@@ -88,7 +88,7 @@ export default function TipoRipsPage() {
               {TIPOS_RIPS[tipo].descripcion}
             </p>
           </div>
-          <RipsUploadPage uploadEndpoint={TIPOS_RIPS[tipo].endpoint} />
+          <RipsUploadPage uploadEndpoint={TIPOS_RIPS[tipo].endpoint} resolution={tipo} />
         </div>
       )}
     </div>

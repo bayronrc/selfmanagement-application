@@ -19,6 +19,22 @@ export interface NotaRipsPaginationResponse {
   data: NotaRips[];
 }
 
+export interface RipsValidationIssue {
+  severity: "error" | "warning";
+  code: string;
+  message: string;
+  fileName?: string;
+  row?: number;
+  field?: string;
+}
+
+export interface RipsUploadResult {
+  ok: number;
+  errores: number;
+  advertencias?: number;
+  issues?: RipsValidationIssue[];
+}
+
 /* ====================================================================
  * Interfaces RIPS v003 basadas en Documento Técnico 1 v003
  * Tabla verificada manualmente
@@ -221,4 +237,3 @@ export interface ProcedimientoRips {
   // P20 - Tipo: N, Tamaño: 1-7, Versión: 1
   consecutivo: number;
 }
-

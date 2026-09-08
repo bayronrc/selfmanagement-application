@@ -11,7 +11,7 @@ export function useApi() {
       ...options,
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        ...(options?.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
         ...options?.headers,
       },
     });
