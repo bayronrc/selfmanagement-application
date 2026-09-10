@@ -226,7 +226,7 @@ function CreateUserDialog({
         rol,
         estado: "activo",
       };
-      await apiFetch("/crud/usuarios", {
+      await apiFetch("/usuarios", {
         method: "POST",
         body: JSON.stringify(payload),
       });

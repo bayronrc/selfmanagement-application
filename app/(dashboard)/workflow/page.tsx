@@ -100,7 +100,7 @@ export default function WorkflowPage() {
   async function handleSaveCita() {
     setLoading(true)
     try {
-      await apiFetch("/crud/citas", {
+      await apiFetch("/citas", {
         method: "POST",
         body: JSON.stringify({
           fecha: cita.fecha,

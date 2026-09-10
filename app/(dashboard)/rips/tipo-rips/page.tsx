@@ -21,8 +21,8 @@ const TIPOS_RIPS: Record<TipoRips, { label: string; descripcion: string; endpoin
     endpoint: "/rips/upload-res0948",
   },
   "res-3344": {
-    label: "RES 3344",
-    descripcion: "Resolución 3344 - Modelo de reporte de costos de prestación de servicios de salud",
+    label: "RES 3374",
+    descripcion: "Resolución 3374 - Modelo de reporte de costos de prestación de servicios de salud",
     endpoint: "/rips/upload-res3344",
   },
 }
@@ -64,7 +64,7 @@ export default function TipoRipsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="res-0948">RES 0948</SelectItem>
-              <SelectItem value="res-3344">RES 3344</SelectItem>
+              <SelectItem value="res-3344">RES 3374</SelectItem>
             </SelectContent>
           </Select>
 

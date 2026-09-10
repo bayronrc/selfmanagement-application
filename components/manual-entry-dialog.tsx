@@ -77,7 +77,7 @@ export function ManualEntryDialog({ entity, fields, onCreated }: ManualEntryDial
           delete payload[f.name + "_carrera"]
         }
       })
-      await apiFetch(`/crud/${entity}`, {
+      await apiFetch(`/${entity}`, {
         method: "POST",
         body: JSON.stringify(payload),
       })

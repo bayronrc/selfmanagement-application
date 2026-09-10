@@ -38,7 +38,7 @@ export default function RipsPage() {
       setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (debouncedSearch) params.set("search", debouncedSearch);
-      const response = await apiFetch(`/crud/rips-notas?${params.toString()}`, { method: "GET" });
+      const response = await apiFetch(`/rips-notas?${params.toString()}`, { method: "GET" });
       if (isMounted) {
         setData(response?.data || []);
         setTotalPages(response?.pages || 1);

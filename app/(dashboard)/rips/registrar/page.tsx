@@ -33,7 +33,7 @@ export default function RegistrarNotaRipsPage() {
     e.preventDefault()
     setLoading(true)
     try {
-      const result = await apiFetch("/crud/rips-notas", {
+      const result = await apiFetch("/rips-notas", {
         method: "POST",
         body: JSON.stringify({
           numDocumentoIdObligado: form.numDocumentoIdObligado,

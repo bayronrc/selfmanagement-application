@@ -58,7 +58,7 @@ function RegistrarCitaContent() {
     e.preventDefault()
     setLoading(true)
     try {
-      await apiFetch("/crud/citas", {
+      await apiFetch("/citas", {
         method: "POST",
         body: JSON.stringify({
           ...form,

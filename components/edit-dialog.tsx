@@ -98,7 +98,7 @@ export function EditDialog({ entity, itemId, fields, initialData, open, onClose,
           delete payload[f.name + "_carrera"]
         }
       })
-      await apiFetch(`/crud/${entity}/${itemId}`, {
+      await apiFetch(`/${entity}/${itemId}`, {
         method: "PATCH",
         body: JSON.stringify(payload),
       })

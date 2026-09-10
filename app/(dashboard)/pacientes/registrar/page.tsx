@@ -55,7 +55,7 @@ export default function RegistrarPacientePage() {
   async function handleSubmit() {
     setLoading(true)
     try {
-      await apiFetch("/crud/pacientes", {
+      await apiFetch("/pacientes", {
         method: "POST",
         body: JSON.stringify({
           ...paciente,
@@ -63,7 +63,7 @@ export default function RegistrarPacientePage() {
         }),
       })
 
-      await apiFetch("/crud/citas", {
+      await apiFetch("/citas", {
         method: "POST",
         body: JSON.stringify({
           ...cita,
