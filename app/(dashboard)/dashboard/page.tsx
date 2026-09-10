@@ -20,7 +20,7 @@ interface DashboardStats {
 
 export default function Page() {
   const { apiFetch } = useApi();
-  const { orgId, isLoaded, userId } = useAuth();
+  const { orgId, isLoaded } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     pacientes: 0,
     citas: 0,
@@ -30,7 +30,6 @@ export default function Page() {
 
   useEffect(() => {
     let isMounted = true;
-    console.log("[DASHBOARD AUTH STATE]", { isLoaded, userId, orgId });
 
     if (!isLoaded) return;
 
@@ -41,8 +40,8 @@ export default function Page() {
         if (isMounted && response) {
           setStats(response);
         }
-      } catch (error) {
-        console.error("Error cargando estadísticas: ", error);
+      } catch {
+        // Backend no disponible: se mantienen los contadores en 0.
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -50,7 +49,7 @@ export default function Page() {
 
     cargarStats();
     return () => { isMounted = false; };
-  }, [isLoaded, orgId, userId, apiFetch]);
+  }, [isLoaded, orgId, apiFetch]);
 
   const statCards = [
     {
