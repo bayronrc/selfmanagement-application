@@ -127,7 +127,7 @@ export default function Page() {
               <UserCogIcon className="size-5 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent">
                 Usuarios
               </h1>
               <p className="text-sm text-muted-foreground">Gestion de usuarios del sistema</p>

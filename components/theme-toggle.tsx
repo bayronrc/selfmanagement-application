@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === "undefined") return false
-    const saved = localStorage.getItem("theme")
-    return saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
-  })
+  const [dark, setDark] = useState(false)
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark)
-  }, [dark])
+    const saved = localStorage.getItem("theme")
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    const initialDark = saved === "dark" || (!saved && prefersDark)
+    setDark(initialDark)
+    document.documentElement.classList.toggle("dark", initialDark)
+  }, [])
 
   function toggle() {
     const next = !dark

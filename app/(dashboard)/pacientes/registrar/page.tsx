@@ -89,7 +89,7 @@ export default function RegistrarPacientePage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-400 dark:to-sky-300 bg-clip-text text-transparent">
           Registrar Paciente y Asignar Cita
         </h1>
         <p className="text-sm text-muted-foreground mt-1">

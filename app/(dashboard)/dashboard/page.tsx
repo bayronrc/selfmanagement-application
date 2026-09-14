@@ -82,7 +82,7 @@ export default function Page() {
     <div className="p-8 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">
             Dashboard
           </h1>
           <p className="text-muted-foreground mt-1">Resumen general del sistema</p>

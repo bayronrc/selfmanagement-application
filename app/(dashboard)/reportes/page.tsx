@@ -133,7 +133,7 @@ export default function Page() {
             <BarChart3Icon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-600 to-slate-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-600 to-slate-500 dark:from-slate-300 dark:to-slate-100 bg-clip-text text-transparent">
               Reportes
             </h1>
             <p className="text-sm text-muted-foreground">Resumen general del sistema medico</p>

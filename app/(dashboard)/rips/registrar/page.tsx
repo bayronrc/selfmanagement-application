@@ -67,7 +67,7 @@ export default function RegistrarNotaRipsPage() {
             <FileTextIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300 bg-clip-text text-transparent">
               Nueva Nota RIPS
             </h1>
             <p className="text-sm text-muted-foreground">Datos del encabezado T01-T04</p>

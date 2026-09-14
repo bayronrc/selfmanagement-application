@@ -101,7 +101,7 @@ export default function Page() {
               <ClipboardListIcon className="size-5 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-500 dark:from-rose-400 dark:to-pink-300 bg-clip-text text-transparent">
                 Órdenes
               </h1>
               <p className="text-sm text-muted-foreground">Gestión de órdenes médicas</p>
