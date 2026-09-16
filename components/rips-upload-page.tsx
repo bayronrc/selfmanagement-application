@@ -21,7 +21,6 @@ import {
   CheckIcon,
   CopyIcon,
   FileCodeIcon,
-  FileSpreadsheetIcon,
   FileTextIcon,
   InfoIcon,
   LightbulbIcon,
@@ -29,7 +28,7 @@ import {
   PlayIcon,
   RotateCcwIcon,
   UploadCloudIcon,
-  XIcon,
+  XIcon
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -278,18 +277,17 @@ export function RipsUploadPage({ uploadEndpoint, resolution }: RipsUploadPagePro
                 setDragRips(false);
                 handleRipsFile(e.dataTransfer.files?.[0]);
               }}
-              className={`flex flex-1 flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center transition-all cursor-pointer ${
-                dragRips
-                  ? "border-blue-500 bg-blue-50/90 dark:border-sky-400 dark:bg-blue-900/40"
-                  : "border-blue-200 hover:border-blue-400 hover:bg-blue-50/40 dark:border-blue-800/80 dark:hover:border-sky-400 dark:hover:bg-blue-900/20"
-              }`}
+              className={`flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed p-8 text-center transition-all cursor-pointer ${dragActive
+                ? "border-blue-400 bg-blue-50 dark:border-sky-400 dark:bg-blue-900/30"
+                : "border-blue-200 hover:border-blue-400 hover:bg-blue-50/60 dark:border-blue-800 dark:hover:border-sky-400 dark:hover:bg-blue-900/20"
+                }`}
             >
               <input
-                id={ripsInputId}
+                id={inputId}
                 type="file"
-                accept=".json,application/json"
+                accept={RIPS_ACCEPTED_EXTENSIONS.join(",")}
                 className="hidden"
-                onChange={(e) => handleRipsFile(e.target.files?.[0])}
+                onChange={(e) => handleFile(e.target.files?.[0])}
               />
               <div className="flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md shadow-blue-500/25">
                 <UploadCloudIcon className="size-6" />
@@ -388,11 +386,10 @@ export function RipsUploadPage({ uploadEndpoint, resolution }: RipsUploadPagePro
                 setDragCuv(false);
                 handleCuvFile(e.dataTransfer.files?.[0]);
               }}
-              className={`flex flex-1 flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center transition-all cursor-pointer ${
-                dragCuv
-                  ? "border-sky-500 bg-sky-50/90 dark:border-sky-400 dark:bg-sky-900/40"
-                  : "border-blue-200 hover:border-sky-400 hover:bg-sky-50/40 dark:border-blue-800/80 dark:hover:border-sky-400 dark:hover:bg-sky-900/20"
-              }`}
+              className={`flex flex-1 flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center transition-all cursor-pointer ${dragCuv
+                ? "border-sky-500 bg-sky-50/90 dark:border-sky-400 dark:bg-sky-900/40"
+                : "border-blue-200 hover:border-sky-400 hover:bg-sky-50/40 dark:border-blue-800/80 dark:hover:border-sky-400 dark:hover:bg-sky-900/20"
+                }`}
             >
               <input
                 id={cuvInputId}
