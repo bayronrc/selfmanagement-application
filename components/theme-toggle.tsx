@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { MoonIcon, SunIcon } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function ThemeToggle({ className }: { className?: string }) {
   const [dark, setDark] = useState(false)
@@ -33,7 +33,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       )}
       onClick={toggle}
     >
-      {dark ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
+      {dark ? <SunIcon className="size-5 lucide lucide-moon" /> : <MoonIcon className="size-5" />}
     </Button>
   )
 }

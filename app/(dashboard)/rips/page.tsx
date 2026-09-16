@@ -1,14 +1,14 @@
 "use client"
 
-import { useApi } from "@/lib/api-client";
-import { NotaRips } from "@/types/rips";
-import { useCallback, useEffect, useState } from "react";
-import { getColumns } from "./partials/columns";
 import { DataTableWithActions } from "@/components/data-table-with-actions";
 import { ExportButton } from "@/components/export-button";
 import { Button } from "@/components/ui/button";
+import { useApi } from "@/lib/api-client";
+import { NotaRips } from "@/types/rips";
 import { FileSpreadsheetIcon, SearchIcon } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { getColumns } from "./partials/columns";
 
 export default function RipsPage() {
   const { apiFetch } = useApi();
@@ -22,7 +22,7 @@ export default function RipsPage() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search), 400);
+    const timer = setTimeout(() => setDebouncedSearch(search), 4000);
     return () => clearTimeout(timer);
   }, [search]);
 
@@ -38,12 +38,13 @@ export default function RipsPage() {
       setLoading(true);
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (debouncedSearch) params.set("search", debouncedSearch);
-      const response = await apiFetch(`/rips-notas?${params.toString()}`, { method: "GET" });
+      const response = await apiFetch(`/rips/get-rips?${params.toString()}`, { method: "GET" });
       if (isMounted) {
         setData(response?.data || []);
         setTotalPages(response?.pages || 1);
         setTotal(response?.total || 0);
       }
+      console.log(response)
     } catch (error) {
       console.error("Error cargando RIPS: ", error);
       toast.error("No se pudieron cargar los RIPS");
@@ -52,8 +53,6 @@ export default function RipsPage() {
     }
     return () => { isMounted = false; };
   }, [page, limit, debouncedSearch, apiFetch]);
-
-  
   useEffect(() => { cargarDatos(); }, [cargarDatos]);
 
   const columns = getColumns();
