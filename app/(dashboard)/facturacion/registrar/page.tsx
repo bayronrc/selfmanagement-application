@@ -74,7 +74,7 @@ export default function RegistrarFacturacionPage() {
             <ReceiptIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 dark:from-amber-400 dark:to-yellow-300 bg-clip-text text-transparent">
               Nueva Factura
             </h1>
             <p className="text-sm text-muted-foreground">El numero de factura se genera automaticamente</p>

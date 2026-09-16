@@ -22,7 +22,7 @@ export default function UploadCitasPage() {
     <PermissionGuard permission="org:citas:read">
       <div className="p-6 max-w-2xl mx-auto">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">Cargar Citas</h1>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">Cargar Citas</h1>
           <div className="flex gap-2">
             <TemplateDownloader entity="citas" />
             <ManualEntryDialog entity="citas" fields={CITA_FIELDS} onCreated={() => window.location.reload()} />

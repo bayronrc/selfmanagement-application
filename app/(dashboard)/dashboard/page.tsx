@@ -20,7 +20,7 @@ interface DashboardStats {
 
 export default function Page() {
   const { apiFetch } = useApi();
-  const { orgId, isLoaded, userId } = useAuth();
+  const { orgId, isLoaded } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     pacientes: 0,
     citas: 0,
@@ -30,7 +30,6 @@ export default function Page() {
 
   useEffect(() => {
     let isMounted = true;
-    console.log("[DASHBOARD AUTH STATE]", { isLoaded, userId, orgId });
 
     if (!isLoaded) return;
 
@@ -41,8 +40,8 @@ export default function Page() {
         if (isMounted && response) {
           setStats(response);
         }
-      } catch (error) {
-        console.error("Error cargando estadísticas: ", error);
+      } catch {
+        // Backend no disponible: se mantienen los contadores en 0.
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -50,7 +49,7 @@ export default function Page() {
 
     cargarStats();
     return () => { isMounted = false; };
-  }, [isLoaded, orgId, userId, apiFetch]);
+  }, [isLoaded, orgId, apiFetch]);
 
   const statCards = [
     {
@@ -83,7 +82,7 @@ export default function Page() {
     <div className="p-8 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">
             Dashboard
           </h1>
           <p className="text-muted-foreground mt-1">Resumen general del sistema</p>

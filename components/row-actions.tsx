@@ -21,7 +21,7 @@ export function RowActions({ entityId, entity, onDeleted, onEdit }: RowActionsPr
     if (!confirm("¿Estás seguro de eliminar este registro?")) return
     setLoading(true)
     try {
-      await apiFetch(`/crud/${entity}/${entityId}`, { method: "DELETE" })
+      await apiFetch(`/${entity}/${entityId}`, { method: "DELETE" })
       toast.success("Registro eliminado correctamente")
       onDeleted()
     } catch {

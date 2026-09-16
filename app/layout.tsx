@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import { TooltipProvider } from "../components/ui/tooltip";
 import "./globals.css";
 
@@ -34,15 +35,14 @@ export default function RootLayout({
         suppressHydrationWarning
         className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
       >
-        <head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `try{const t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
-            }}
-          />
-        </head>
+        <head />
         <body className="min-h-full flex flex-col">
           <TooltipProvider>
+            <Script
+              id="theme-init"
+              strategy="beforeInteractive"
+              src="/theme-init.js"
+            />
             {children}
           </TooltipProvider>
         </body>

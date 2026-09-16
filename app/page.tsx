@@ -150,7 +150,7 @@ export default async function HomePage() {
 
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
               Gestiona tu{" "}
-              <span className="bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">
                 clínica
               </span>{" "}
               de forma inteligente

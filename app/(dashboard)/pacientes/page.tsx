@@ -76,7 +76,7 @@ export default function Page() {
               <UsersIcon className="size-5 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-400 dark:to-sky-300 bg-clip-text text-transparent">
                 Pacientes
               </h1>
               <p className="text-sm text-muted-foreground">Gestión de pacientes registrados</p>

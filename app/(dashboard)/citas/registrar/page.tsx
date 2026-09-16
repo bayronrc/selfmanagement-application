@@ -58,7 +58,7 @@ function RegistrarCitaContent() {
     e.preventDefault()
     setLoading(true)
     try {
-      await apiFetch("/crud/citas", {
+      await apiFetch("/citas", {
         method: "POST",
         body: JSON.stringify({
           ...form,
@@ -89,7 +89,7 @@ function RegistrarCitaContent() {
             <CalendarIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">
               Registrar Cita
             </h1>
             <p className="text-sm text-muted-foreground">

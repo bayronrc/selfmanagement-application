@@ -65,7 +65,7 @@ export default function Page() {
           <FileTextIcon className="size-5 text-white" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">Historia Clínica</h1>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-400 dark:to-blue-300 bg-clip-text text-transparent">Historia Clínica</h1>
           <p className="text-sm text-muted-foreground">Diagnósticos, tratamientos y evolución por paciente</p>
         </div>
       </div>

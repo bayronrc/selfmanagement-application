@@ -77,7 +77,7 @@ export default function Page() {
             <ReceiptIcon className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 dark:from-amber-400 dark:to-yellow-300 bg-clip-text text-transparent">
               Facturacion
             </h1>
             <p className="text-sm text-muted-foreground">Gestion de facturacion medica</p>
