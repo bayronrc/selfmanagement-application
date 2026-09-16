@@ -35,6 +35,52 @@ export interface RipsUploadResult {
   issues?: RipsValidationIssue[];
 }
 
+export interface RipsSummaryData {
+  rips_id: number;
+  num_factura: string;
+  num_documento_id_obligatorio: string;
+  total_usuarios: number;
+  total_consultas: number;
+  total_procedimientos: number;
+  has_xml_fev?: boolean;
+  filename?: string | null;
+  file_path?: string | null;
+  xml_path?: string | null;
+  cuv?: string | null;
+  cuv_proceso_id?: number | null;
+  cuv_fecha_radicacion?: string | null;
+  cuv_path?: string | null;
+  org_id: string;
+  uploaded_by?: number | null;
+}
+
+export interface RipsProcessResponse {
+  status: string;
+  message: string;
+  data: RipsSummaryData;
+}
+
+export interface ParsedRipsInfo {
+  numFactura: string;
+  numDocumentoIdObligado: string;
+  tipoNota?: string | null;
+  numNota?: string | null;
+  totalUsuarios: number;
+  totalConsultas: number;
+  totalProcedimientos: number;
+}
+
+export interface ParsedCuvInfo {
+  numFactura: string;
+  resultState: boolean;
+  codigoUnicoValidacion?: string | null;
+  procesoId?: number | null;
+  fechaRadicacion?: string | null;
+  modulo?: string | null;
+  modalidadPago?: string | null;
+  totalErrores?: number;
+}
+
 /* ====================================================================
  * Interfaces RIPS v003 basadas en Documento Técnico 1 v003
  * Tabla verificada manualmente
